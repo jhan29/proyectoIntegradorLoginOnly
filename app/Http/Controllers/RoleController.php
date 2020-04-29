@@ -23,7 +23,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-    $request->user()->authorizeRoles('Administrador');
+    $request->user()->authorizeRoles('admin');
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -42,7 +42,7 @@ class RoleController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         return view("Role.create");
     }
@@ -83,7 +83,7 @@ class RoleController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         return view("Role.edit",["role"=>Role::findOrFail($id)]);
     }
@@ -114,7 +114,7 @@ class RoleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         $role=Role::findOrFail($id);
         $role->delete();

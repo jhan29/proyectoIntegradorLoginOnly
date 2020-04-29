@@ -23,7 +23,7 @@ class UserRoleController extends Controller
      */
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');  
+        $request->user()->authorizeRoles('admin');  
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -47,7 +47,7 @@ class UserRoleController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');  
+        $request->user()->authorizeRoles('admin');  
         ////array Roles
         $rol=DB::table('roles')
         ->select('roles.description', 'roles.id')
@@ -127,7 +127,7 @@ class UserRoleController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
    
         $user_role=UserRole::findOrFail($id);
         $user_role->delete();

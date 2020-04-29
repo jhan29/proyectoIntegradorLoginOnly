@@ -20,7 +20,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                         <br>
-                            <label for="id_tipo">Tipo Vehiculo Numero:</label>
+                            <label for="id_tipo">Vehiculo Numero:</label>
                                 <input type="number" name="id_tipo" class="form-control" value="{{$idtipo}}" readonly>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                                 <option value="" disable>Seleccione El Tipo De Vehiculo:</option>
                                 <option value="Automovil">Automovil</option>
                                 <option value="Motocicleta">Motocicleta</option>
-                                <option value="Buseta">Buseta</option>
+                                <option value="Otro">Otro</option>
                             </select>
                         </div>
                     </div>

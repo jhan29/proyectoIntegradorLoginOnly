@@ -76,7 +76,12 @@ class TarifaController extends Controller
         $tarifa->fecha_inicio=$request->get('fecha_inicio'); 
         $tarifa->fecha_fin=$request->get('fecha_fin');
         $tarifa->save();
-        return Redirect::to('tarifa');
+        //return Redirect::to('tarifa');
+        echo    "<script>
+                    alert('Tarifa Registrada');
+                    window.location.href = 'tarifa';
+                </script>";
+        exit;
     }
 
     /**
@@ -100,8 +105,12 @@ class TarifaController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipo_vehiculo=Tipo_Vehiculo::findOrFail($id);
-        return view("Tipo_Vehiculo.edit",["tipo_vehiculo"=>$tipo_vehiculo]);
+        $tipovehiculo = DB::table('tipo_vehiculo')
+        ->get();
+
+        $tarifa=Tarifa::findOrFail($id);
+
+        return view("Tarifa.edit",["tarifa"=>$tarifa, "tipovehiculo"=>$tipovehiculo]);
     }
 
     /**
@@ -120,7 +129,12 @@ class TarifaController extends Controller
         $tarifa->fecha_inicio=$request->get('fecha_inicio'); 
         $tarifa->fecha_fin=$request->get('fecha_fin');
         $tarifa->update();
-        return Redirect::to('tarifa');
+        //return Redirect::to('tarifa');
+        echo    "<script>
+                    alert('Tarifa Actualizada');
+                    window.location.href = '/tarifa';
+                </script>";
+        exit;
     }
 
     /**
@@ -135,6 +149,11 @@ class TarifaController extends Controller
 
         $tarifa=Tarifa::findOrFail($id);
         $tarifa->delete();
-        return Redirect::to('tarifa');;
+        //return Redirect::to('tarifa');
+        echo    "<script>
+                    alert('Tarifa Eliminada');
+                    window.location.href = '/tarifa';
+                </script>";
+        exit;
     }
 }

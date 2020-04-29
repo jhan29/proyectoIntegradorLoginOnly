@@ -12,7 +12,7 @@ use DB;
 class PdfController extends Controller
 {
     public function imprimirPersonas(Request $request){
-        $request->user()->authorizeRoles(['Administrador','Empleado']);
+        $request->user()->authorizeRoles(['admin','emple']);
         
         $personas = DB::table('persona')
         ->select('persona.num_documento','persona.nombre','persona.apellido','persona.email','persona.contacto')
@@ -27,7 +27,7 @@ class PdfController extends Controller
     }
 
     public function imprimirClientes(Request $request){
-        $request->user()->authorizeRoles(['Administrador','Empleado']);
+        $request->user()->authorizeRoles(['admin','emple']);
 
         $clientes = DB::table('cliente as cli')
         ->join('persona as per', 'per.num_documento','=','cli.num_documento')
@@ -43,13 +43,11 @@ class PdfController extends Controller
     }
 
     public function imprimirVehiculos(Request $request){
-        $request->user()->authorizeRoles(['Administrador','Empleado']);
+        $request->user()->authorizeRoles(['admin','emple']);
 
-        $vehiculos = DB::table('vehiculo as veh')
-        ->join('cliente as cli', 'cli.id_cliente','=','veh.id_cliente')
-        ->join('persona as per', 'per.num_documento','=','cli.num_documento')
-        ->select('cli.id_cliente','cli.num_documento','per.nombre','per.apellido','veh.id_vehiculo','veh.tipo_vehiculo',
-        'veh.placa_vehiculo','veh.marca_vehiculo','veh.modelo_vehiculo','veh.color_vehiculo','veh.num_puertas')
+        $vehiculos = DB::table('vehiculo as ve')
+        ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
+        ->select('tv.nombre','ve.tipo_vehiculo_id_tipo','ve.id_vehiculo','ve.placa')
         ->get();
 
         //dd($vehiculos);
@@ -63,44 +61,27 @@ class PdfController extends Controller
     }
 
     public function imprimirVehiculoEspecifico(Request $request,$id_vehiculo){
-        $request->user()->authorizeRoles(['Administrador','Empleado']);
+        $request->user()->authorizeRoles(['admin','emple']);
 
-        $vehiculoespecifico = DB::table('vehiculo as veh')
-        ->join('cliente as cli', 'cli.id_cliente','=','veh.id_cliente')
-        ->join('persona as per', 'per.num_documento','=','cli.num_documento')
-        ->select('cli.id_cliente','cli.num_documento','per.nombre','per.apellido','veh.id_vehiculo','veh.tipo_vehiculo',
-        'veh.placa_vehiculo','veh.marca_vehiculo','veh.modelo_vehiculo','veh.color_vehiculo','veh.num_puertas')
-        ->where('veh.id_vehiculo','=',$id_vehiculo)
+        $vehiculoespecifico = DB::table('vehiculo as ve')
+        ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
+        ->select('tv.nombre','ve.tipo_vehiculo_id_tipo','ve.id_vehiculo','ve.placa')
+        ->where('ve.id_vehiculo','=',$id_vehiculo)
         ->get();
 
         foreach ($vehiculoespecifico as $ve) {
-            $idcliente=$ve->id_cliente;
-            $numdocumento=$ve->num_documento;
-            $nombrecli=$ve->nombre;
-            $apellidocli=$ve->apellido;
+            $tiponombre=$ve->nombre;
+            $tipovehiculoid=$ve->tipo_vehiculo_id_tipo;
             $idvehiculo=$ve->id_vehiculo;
-            $tipo=$ve->tipo_vehiculo;
-            $placa=$ve->placa_vehiculo;
-            $marca=$ve->marca_vehiculo;
-            $modelo=$ve->modelo_vehiculo;
-            $color=$ve->color_vehiculo;
-            $numpuertas=$ve->num_puertas;
+            $placavehiculo=$ve->placa;
         }
         //dd($vehiculoespecifico);
 
         $pdf = \PDF::loadView('Pdf.vehiculoEspecificoPDF',[
-            'idcliente' => $idcliente,
-            'numdocumento' => $numdocumento,
-            'nombrecli' => $nombrecli,
-            'apellidocli' => $apellidocli,
+            'tiponombre' => $tiponombre,
+            'tipovehiculoid' => $tipovehiculoid,
             'idvehiculo' => $idvehiculo,
-            'tipo' => $tipo,
-            'placa' => $placa,
-            'marca' => $marca,
-            'modelo' => $modelo,
-            'color' => $color,
-            'numpuertas' => $numpuertas,
-
+            'placavehiculo' => $placavehiculo,
             ]);
             
             $pdf->setPaper('carta', 'A4');

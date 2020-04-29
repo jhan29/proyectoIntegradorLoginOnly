@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-    $request->user()->authorizeRoles('Administrador');
+    $request->user()->authorizeRoles('admin');
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
         
         return view("User.create");
     }
@@ -83,7 +83,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         return view("User.edit",["usuario"=>User::findOrFail($id)]);
     }
@@ -113,7 +113,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         $usuario=User::findOrFail($id);
         $usuario->delete();

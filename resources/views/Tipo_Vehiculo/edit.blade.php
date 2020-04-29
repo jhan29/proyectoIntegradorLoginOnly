@@ -37,7 +37,7 @@
                             <option value="Automovil" disabled >Automovil</option>
                             <option value="{{$tipo_vehiculo->nombre}}" selected >{{$tipo_vehiculo->nombre}}</option>
                             <option value="Buseta" disabled >Buseta</option>
-                            @elseif ($tipo_vehiculo->nombre=='Buseta')
+                            @elseif ($tipo_vehiculo->nombre=='Otro')
                             <option value="Automovil" disabled >Automovil</option>
                             <option value="Moticicleta" disabled >Moticicleta</option>
                             <option value="{{$tipo_vehiculo->nombre}}" selected >{{$tipo_vehiculo->nombre}}</option>

@@ -27,62 +27,22 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <br>
-                            <label for="id_cliente">Documento Del Cliente:</label>
-                            <select type="number" name="id_cliente" id="id_cliente" class="form-control selectpicker" data-live-search="true" data-header="Listado De Clientes">
-                                <option value="" disable>Seleccione EL Documento Del Cliente:</option>
-                                @foreach($clientes as $cli)   
-                                <option value="{{$cli->id_cliente}}">Numero Documento: {{$cli->num_documento}} Nombre: {{$cli->nombre}} Apellido: {{$cli->apellido}}</option>
+                            <label for="tipo_vehiculo_id_tipo">Tipo De Vehiculo:</label>
+                            <select type="number" name="tipo_vehiculo_id_tipo" id="tipo_vehiculo_id_tipo" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculo">
+                                <option value="" disable>Seleccione EL Tipo De Vehiculo:</option>
+                                @foreach($tipo_vehiculo as $tipveh)   
+                                <option value="{{$tipveh->id_tipo}}">ID: {{$tipveh->id_tipo}} Nombre: {{$tipveh->nombre}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <br>
-                            <label for="tipo_vehiculo">Tipo De Vehiculo</label>
-                            <select type="text" name="tipo_vehiculo" id="tipo_vehiculo" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculos">
-                                <option value="" disable>Seleccione El Tipo De Vehiculo:</option>
-                                <option value="Automovil">Automovil</option>
-                                <option value="Motocicleta">Motocicleta</option>
-                                <option value="Buseta">Buseta</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
                         <br>
-                            <label for="placa_vehiculo">Placa Del Vehiculo</label>
-                                <input type="text" name="placa_vehiculo" id="placa_vehiculo" class="form-control" placeholder="Digite La Placa Del Vehiculo...">
+                            <label for="placa">Placa Del Vehiculo</label>
+                                <input type="text" name="placa" id="placa" class="form-control" placeholder="Digite La Placa Del Vehiculo...">
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <label for="marca_vehiculo">Marca Del Vehiculo</label>
-                                <input type="text" name="marca_vehiculo" class="form-control" placeholder="Digite La Marca Del Vehiculo...">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <label for="modelo_vehiculo">Modelo Del Vehiculo</label>
-                                <input type="text" name="modelo_vehiculo" class="form-control" placeholder="Digite El Modelo Del Vehiculo...">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <label for="color_vehiculo">Color Del Vehiculo</label>
-                                <input type="text" name="color_vehiculo" class="form-control" placeholder="Digite El Color Del Vehiculo...">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <label for="num_puertas">Numero De Puertas</label>
-                                <input type="number" name="num_puertas" class="form-control" placeholder="Digite La Cantidad De Puertas Del Vehiculo...">
-                        </div>
-                    </div>
+                    </div>         
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                         <br>

@@ -26,32 +26,18 @@
                 <table class="table table-bordered table-striped table-hover">
 
                     <tr>
-                        <th>Datos</th>
-                        <th>Numero Documento</th>
-                        <th>Nombre Cliente</th>
-                        <th>Apellido Cliente</th>
+                        <th>Vehiculo Numero:</th>
                         <th>Tipo Vehiculo</th>
                         <th>Placa</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Color</th>
-                        <th>Numero Puertas</th>
                     </tr>
 
                     <?php
 
                     foreach($vehiculos as $ve){?>
-                        <tr>
-                            <td>{{'Vehiculo# : ' .$ve->id_vehiculo. ' Cliente# : ' .$ve->id_cliente}}</td>
-                            <td>{{$ve->num_documento}}</td>
-                            <td>{{$ve->nombre}}</td>
-                            <td>{{$ve->apellido}}</td>                           
-                            <td>{{$ve->tipo_vehiculo}}</td>
-                            <td>{{$ve->placa_vehiculo}}</td>
-                            <td>{{$ve->marca_vehiculo}}</td>
-                            <td>{{$ve->modelo_vehiculo}}</td>
-                            <td>{{$ve->color_vehiculo}}</td>
-                            <td>{{$ve->num_puertas}}</td>
+                        <tr>         
+                            <td>{{$ve->id_vehiculo}}</td>             
+                            <td>ID: {{$ve->tipo_vehiculo_id_tipo}} Nombre:{{$ve->nombre}}</td>
+                            <td>{{$ve->placa}}</td>
                         </tr>
                         <?php   }?>
 
@@ -63,6 +49,7 @@
             <br>
             <br>
             <br>
+            <h5 class="text-center">Usuario: {{auth()->user()->name}}</h5>
             <h6 align="center">SET Ingenieria, software de ventas version 1</h6>
         </div>
     </body>

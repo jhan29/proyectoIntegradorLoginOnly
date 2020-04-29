@@ -26,26 +26,14 @@
                 <table class="table table-bordered table-striped table-hover">
 
                     <tr>
-                        <th>Informacion</th>
-                        <th>Numero Documento</th>
-                        <th>Datos Del Cliente</th>
-                        <th>Tipo Vehiculo</th>
-                        <th>Placa</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Color</th>
-                        <th>Numero Puertas</th>
+                        <th>Vehiculo Numero:</th>
+                        <th>Tipo Vehiculo:</th>
+                        <th>Placa:</th>
                     </tr>
-                        <tr>
-                            <td>{{'Vehiculo# : ' .$idvehiculo. ' Cliente# : ' .$idcliente}}</td>
-                            <td>{{$numdocumento}}</td>
-                            <td>{{'Nombre : ' .$nombrecli. ' Apellido : ' .$apellidocli}}</td>                          
-                            <td>{{$tipo}}</td>
-                            <td>{{$placa}}</td>
-                            <td>{{$marca}}</td>
-                            <td>{{$modelo}}</td>
-                            <td>{{$color}}</td>
-                            <td>{{$numpuertas}}</td>
+                        <tr>                        
+                            <td>{{$id_vehiculo}}</td>
+                            <td>ID: {{$tipovehiculoid}} Nombre:{{$tiponombre}}</td>
+                            <td>{{$placavehiculo}}</td>
                         </tr>
                 </table>
 
@@ -55,6 +43,7 @@
             <br>
             <br>
             <br>
+            <h5 class="text-center">Usuario: {{auth()->user()->name}}</h5>
             <h6 align="center">SET Ingenieria, software de ventas version 1</h6>
         </div>
     </body>

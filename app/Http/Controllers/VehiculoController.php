@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Vehiculo;
-use App\Cliente;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\VehiculoFormRequest;
 use DB;
@@ -31,7 +30,7 @@ class VehiculoController extends Controller
             $query=trim($request->get('searchText'));
             $vehiculos=DB::table('vehiculo as ve')
             ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
-            ->select('ta.nombre','ta.descripcion','ve.id_vehiculo',
+            ->select('tv.nombre','tv.descripcion','ve.id_vehiculo',
             've.placa','ve.tipo_vehiculo_id_tipo')
             ->where('ve.placa','LIKE','%'.$query.'%')
             ->orderBy('ve.id_vehiculo','desc')
@@ -47,15 +46,9 @@ class VehiculoController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
-        $clientes=DB::table('cliente as cli')
-        ->join('persona as per','per.num_documento','=','cli.num_documento')
-        ->select('per.num_documento','per.nombre','per.apellido','cli.id_cliente')
-        ->whereNotIn('cli.id_cliente', function($query){
-            $query -> select('vehiculo.id_cliente')
-        ->from('vehiculo');
-         })
+        $tipo_vehiculo=DB::table('tipo_vehiculo')
         ->get();
 
         $idvehiculo = DB::table('vehiculo')->max('id_vehiculo');
@@ -65,7 +58,7 @@ class VehiculoController extends Controller
           $idvehiculo = $idvehiculo+1;
         }
 
-        return view ('Vehiculo.create',["clientes"=>$clientes,"idvehiculo"=>$idvehiculo]);
+        return view ('Vehiculo.create',["tipo_vehiculo"=>$tipo_vehiculo, "idvehiculo"=>$idvehiculo]);
     }
 
     /**
@@ -76,12 +69,35 @@ class VehiculoController extends Controller
      */
     public function store(VehiculoFormRequest $request)
     {    
-        $vehiculo=new Vehiculo;
-        $vehiculo->id_vehiculo=$request->get('id_vehiculo');
-        $vehiculo->placa=$request->get('placa');
-        $vehiculo->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo'); 
-        $vehiculo->save();
-        return Redirect::to('vehiculo');
+        $ciclo=$request->placa; //Guardo el valor del nombre, por medio del formulario
+
+        $existencia = DB::table('vehiculo')   
+        ->select('id_vehiculo')
+        ->where('placa', '=', $ciclo)
+        ->get(); //realizo la sentencia para saber si existe
+    
+       if (count($existencia) >= 1) {   //aqui valido si son iguales en el campo de la db y 
+
+            echo    "<script>
+                        alert('No puedes registrar dos veces la misma placa');
+                        window.location.href = 'vehiculo/create';
+                    </script>";
+            exit;
+    
+        }else{
+            $vehiculo=new Vehiculo;
+            $vehiculo->id_vehiculo=$request->get('id_vehiculo');
+            $vehiculo->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo'); 
+            $vehiculo->placa=$request->get('placa');
+            $vehiculo->save();
+            //return Redirect::to('vehiculo');
+            echo    "<script>
+                        alert('Vehiculo Registrado');
+                        window.location.href = 'vehiculo';
+                    </script>";
+            exit;
+        }
+        
     }
 
     /**
@@ -105,13 +121,14 @@ class VehiculoController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipo=DB::table('tipo_vehiculo as tv')
+        $tipovehiculo=DB::table('tipo_vehiculo as tv')
         ->join('vehiculo as ve','ve.tipo_vehiculo_id_tipo','=','tv.id_tipo')
-        ->select('tv.nombre','tv.descripcion','ve.placa','ve.tipo_vehiculo_id_tipo')
+        ->select('tv.id_tipo','tv.nombre','ve.placa','ve.tipo_vehiculo_id_tipo')
         ->get();
         
         $vehiculo=Vehiculo::findOrFail($id);
-        return view("Vehiculo.edit",["vehiculo"=>$vehiculo,"tipo"=>$tipo]);
+
+        return view("Vehiculo.edit",["tipovehiculo"=>$tipovehiculo,"vehiculo"=>$vehiculo]);
         
     }
 
@@ -126,10 +143,15 @@ class VehiculoController extends Controller
     {
         $vehiculo=Vehiculo::findOrFail($id);
         $vehiculo->id_vehiculo=$request->get('id_vehiculo');
-        $vehiculo->placa=$request->get('placa');
         $vehiculo->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo'); 
+        $vehiculo->placa=$request->get('placa'); 
         $vehiculo->update();
-        return Redirect::to('vehiculo');
+       //return Redirect::to('vehiculo');
+        echo    "<script>
+                    alert('Vehiculo Actualizado');
+                    window.location.href = '/vehiculo';
+                </script>";
+        exit;
     }
 
     /**
@@ -140,10 +162,15 @@ class VehiculoController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $request->user()->authorizeRoles('admin');
 
         $vehiculo=Vehiculo::findOrFail($id);
         $vehiculo->delete();
-        return Redirect::to('vehiculo');
+        //return Redirect::to('vehiculo');
+        echo    "<script>
+                    alert('Vehiculo Eliminado');
+                    window.location.href = '/vehiculo';
+                </script>";
+        exit;
     }
 }

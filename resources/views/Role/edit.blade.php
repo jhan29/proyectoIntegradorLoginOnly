@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit" >Actualizar</button>
                         <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Borras Campos </button>
-                        <a class="btn btn-info" type="reset" href="{{url('role')}}"><span class="glyphicon glyphicon-home"></span> Volver </a>
+                        <a class="btn btn-info" type="reset" href="{{url('role')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
                         </div>  
                 </div>                                   
             

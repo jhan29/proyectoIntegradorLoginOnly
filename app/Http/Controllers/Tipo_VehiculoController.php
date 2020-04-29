@@ -62,12 +62,35 @@ class Tipo_VehiculoController extends Controller
      */
     public function store(Tipo_VehiculoFormRequest $request)
     {    
-        $tipo_vehiculo=new Tipo_Vehiculo;
-        $tipo_vehiculo->id_tipo=$request->get('id_tipo');
-        $tipo_vehiculo->nombre=$request->get('nombre');
-        $tipo_vehiculo->descripcion=$request->get('descripcion'); 
-        $tipo_vehiculo->save();
-        return Redirect::to('tipo_vehiculo');
+        $ciclo=$request->nombre; //Guardo el valor del nombre, por medio del formulario
+
+        $existencia = DB::table('tipo_vehiculo')   
+        ->select('id_tipo')
+        ->where('nombre', '=', $ciclo)
+        ->get(); //realizo la sentencia para saber si existe
+    
+       if (count($existencia) >= 1) {   //aqui valido si son iguales en el campo de la db y 
+
+            echo    "<script>
+                        alert('No puedes registrar dos veces el nombre del tipo de vehiculo');
+                        window.location.href = 'tipo_vehiculo/create';
+                    </script>";
+            exit;
+    
+        }else{
+    
+            $tipo_vehiculo=new Tipo_Vehiculo;
+            $tipo_vehiculo->id_tipo=$request->get('id_tipo');
+            $tipo_vehiculo->nombre=$request->get('nombre');
+            $tipo_vehiculo->descripcion=$request->get('descripcion'); 
+            $tipo_vehiculo->save();
+            //return Redirect::to('tipo_vehiculo');
+            echo    "<script>
+                        alert('Tipo De Vehiculo Registrado');
+                        window.location.href = 'tipo_vehiculo';
+                    </script>";
+            exit;
+        }
     }
 
     /**
