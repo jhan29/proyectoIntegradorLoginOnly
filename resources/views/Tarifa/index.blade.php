@@ -15,22 +15,20 @@
                     <thead>
                         <th>Id Tarifa</th>
                         <th>Tipo Vehiculo Asignar Tarifa</th>
-                        <th>Valor * Hora</th>
-                        <th>Fecha Inico Tarifa</th>
-                        <th>Fecha Fin Tarifa</th>
+                        <th>Valor Hora</th>
+                        <th>Estado</th>
                         <th>Opciones</th>
                     </thead>
                     @if($tarifas->count())
                     @foreach ($tarifa as $ta)
                     <tr>
                         <td>{{$ta->id_tarifa}}</td>
-                        <td>ID : {{$ta->tipo_vehiculo->id_tipo}} - Nombre :{{$ta->tipo_vehiculo->nombre}}</td>
-                        <td>{{$ta->valor}}</td>
-                        <td>{{$ta->fecha_inicio}}</td>
-                        <td>{{$ta->fecha_fin}}</td>                   
+                        <td>ID : {{$ta->tipo_vehiculos->id_tipo}} - Nombre :{{$ta->tipo_vehiculos->nombre}}</td>
+                        <td>{{$ta->valor_hora}}</td>
+                        <td>{{$ta->estado}}</td>                  
                     <td>
-                        <a href="{{URL::action('TarifaController@edit',$ta->id_tarifa)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
-                        <a href="" data-target="#modal-delete-{{$ta->id_tarifa}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Eliminar </button></a>
+                        <a href="{{URL::action('TarifaController@edit',$ta->id_tarifa)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar Tarifa </button></a>
+                        <a href="" data-target="#modal-delete-{{$ta->id_tarifa}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Inactivar Tarifa </button></a>
                     </td>
                     </tr>
                     @include('Tarifa.modal')

@@ -27,13 +27,13 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label for="tipo_vehiculo_id_tipo">Tipo De Vehiculo</label>
-                        <select name="tipo_vehiculo_id_tipo" id="tipo_vehiculo_id_tipo"  class="form-control selectpicker" data-live-search="true">
+                    <label for="tipo_vehiculos_id_tipo">Tipo De Vehiculo</label>
+                        <select name="tipo_vehiculos_id_tipo" id="tipo_vehiculos_id_tipo"  class="form-control selectpicker" data-live-search="true">
                             @foreach ($tipovehiculo as $tipo)
-                                @if($tipo->id_tipo == $tarifa->tipo_vehiculo_id_tipo)
-                                    <option value="{{$tarifa->tipo_vehiculo_id_tipo}}" selected >Nombre: {{$tipo->nombre}}</option>
+                                @if($tipo->id_tipo == $tarifa->tipo_vehiculos_id_tipo)
+                                    <option value="{{$tarifa->tipo_vehiculos_id_tipo}}" selected >Nombre: {{$tipo->nombre}}</option>
                                 @else
-                                    <option value="{{$tarifa->tipo_vehiculo_id_tipo}}" disabled >Nombre: {{$tipo->nombre}}</option>
+                                    <option value="{{$tarifa->tipo_vehiculos_id_tipo}}"  >Nombre: {{$tipo->nombre}}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -41,27 +41,21 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label for="valor">Valor Hora</label>
-                    <input type="number" name="valor" id="valor" class="form-control" value="{{$tarifa->valor}}">
+                    <label for="valor_hora">Valor Hora</label>
+                    <input type="number" name="valor_hora" id="valor_hora" class="form-control" value="{{$tarifa->valor_hora}}">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label for="fecha_inicio">Fecha Inicio</label>
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{$tarifa->fecha_inicio}}">
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="form-group">
-                    <label for="fecha_fin">Fecha Fin</label>
-                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{$tarifa->fecha_fin}}">
+                    <label for="estado">Estado:</label>
+                    <input type="text" name="estado" id="estado" class="form-control" value="{{$tarifa->estado}}" readonly>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-refresh"></span> Actualizar </button>
                     <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-repeat"></span> Vaciar Campos</button>
-                    <a class="btn btn-info" type="reset" href="{{url('vehiculo')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
+                    <a class="btn btn-info" type="reset" href="{{url('tarifa')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
                 </div>   
             </div>
         </div>

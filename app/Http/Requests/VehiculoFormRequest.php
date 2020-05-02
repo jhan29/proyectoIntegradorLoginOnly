@@ -25,7 +25,7 @@ class VehiculoFormRequest extends FormRequest
     {
         return [
             'id_vehiculo'=>'required',
-            'tipo_vehiculo_id_tipo'=>'required',
+            'tipo_vehiculos_id_tipo'=>'required',
             'placa'=>'required|alpha_num|max:6'
         ];
     }
@@ -34,7 +34,7 @@ class VehiculoFormRequest extends FormRequest
         return [
             'id_vehiculo.required'   => 'El atributo vehiculo numero, es obligatorio.',
 
-            'tipo_vehiculo_id_tipo.required'  => 'El atributo Tipo De Vehiculo, es obligatorio',
+            'tipo_vehiculos_id_tipo.required'  => 'El atributo Tipo De Vehiculo, es obligatorio',
            
             'placa.required'   => 'El atributo placa del vehiculo es obligatorio.',
             'placa.max'        => 'El atributo placa del vehiculo debe contener maximo de 6 letras y/o numeros.',

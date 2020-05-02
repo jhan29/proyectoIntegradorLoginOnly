@@ -27,9 +27,9 @@ class Tipo_VehiculoController extends Controller
         if ($request)
         {
             $query=trim($request->get('searchText'));
-            $tipos_vehiculos=DB::table('tipo_vehiculo')
-            ->where('tipo_vehiculo.nombre','LIKE','%'.$query.'%')
-            ->orderBy('tipo_vehiculo.id_tipo','desc')
+            $tipos_vehiculos=DB::table('tipo_vehiculos')
+            ->where('tipo_vehiculos.nombre','LIKE','%'.$query.'%')
+            ->orderBy('tipo_vehiculos.id_tipo','desc')
             ->paginate(5);
             return view('Tipo_Vehiculo.index',["tipos_vehiculos"=>$tipos_vehiculos,"searchText"=>$query]);
         }
@@ -44,7 +44,7 @@ class Tipo_VehiculoController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $idtipo = DB::table('tipo_vehiculo')->max('id_tipo');
+        $idtipo = DB::table('tipo_vehiculos')->max('id_tipo');
         if ($idtipo==0) {
           $idtipo=1;
         }else {
@@ -64,7 +64,7 @@ class Tipo_VehiculoController extends Controller
     {    
         $ciclo=$request->nombre; //Guardo el valor del nombre, por medio del formulario
 
-        $existencia = DB::table('tipo_vehiculo')   
+        $existencia = DB::table('tipo_vehiculos')   
         ->select('id_tipo')
         ->where('nombre', '=', $ciclo)
         ->get(); //realizo la sentencia para saber si existe

@@ -28,10 +28,10 @@ class VehiculoController extends Controller
         if ($request)
         {
             $query=trim($request->get('searchText'));
-            $vehiculos=DB::table('vehiculo as ve')
-            ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
+            $vehiculos=DB::table('vehiculos as ve')
+            ->join('tipo_vehiculos as tv','tv.id_tipo','=','ve.tipo_vehiculos_id_tipo')
             ->select('tv.nombre','tv.descripcion','ve.id_vehiculo',
-            've.placa','ve.tipo_vehiculo_id_tipo')
+            've.placa','ve.tipo_vehiculos_id_tipo')
             ->where('ve.placa','LIKE','%'.$query.'%')
             ->orderBy('ve.id_vehiculo','desc')
             ->paginate(5);
@@ -48,10 +48,10 @@ class VehiculoController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipo_vehiculo=DB::table('tipo_vehiculo')
+        $tipo_vehiculo=DB::table('tipo_vehiculos')
         ->get();
 
-        $idvehiculo = DB::table('vehiculo')->max('id_vehiculo');
+        $idvehiculo = DB::table('vehiculos')->max('id_vehiculo');
         if ($idvehiculo==0) {
           $idvehiculo=1;
         }else {
@@ -71,7 +71,7 @@ class VehiculoController extends Controller
     {    
         $ciclo=$request->placa; //Guardo el valor del nombre, por medio del formulario
 
-        $existencia = DB::table('vehiculo')   
+        $existencia = DB::table('vehiculos')   
         ->select('id_vehiculo')
         ->where('placa', '=', $ciclo)
         ->get(); //realizo la sentencia para saber si existe
@@ -87,7 +87,7 @@ class VehiculoController extends Controller
         }else{
             $vehiculo=new Vehiculo;
             $vehiculo->id_vehiculo=$request->get('id_vehiculo');
-            $vehiculo->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo'); 
+            $vehiculo->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo'); 
             $vehiculo->placa=$request->get('placa');
             $vehiculo->save();
             //return Redirect::to('vehiculo');
@@ -121,9 +121,7 @@ class VehiculoController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipovehiculo=DB::table('tipo_vehiculo as tv')
-        ->join('vehiculo as ve','ve.tipo_vehiculo_id_tipo','=','tv.id_tipo')
-        ->select('tv.id_tipo','tv.nombre','ve.placa','ve.tipo_vehiculo_id_tipo')
+        $tipovehiculo=DB::table('tipo_vehiculos')
         ->get();
         
         $vehiculo=Vehiculo::findOrFail($id);
@@ -143,7 +141,7 @@ class VehiculoController extends Controller
     {
         $vehiculo=Vehiculo::findOrFail($id);
         $vehiculo->id_vehiculo=$request->get('id_vehiculo');
-        $vehiculo->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo'); 
+        $vehiculo->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo'); 
         $vehiculo->placa=$request->get('placa'); 
         $vehiculo->update();
        //return Redirect::to('vehiculo');

@@ -22,7 +22,7 @@
                     @foreach ($vehiculos as $vehiculo)
                     <tr>
                         <td>{{$vehiculo->id_vehiculo}}</td>
-                        <td>ID: {{$vehiculo->tipo_vehiculo_id_tipo}} Nombre: {{$vehiculo->nombre}}</td>
+                        <td>ID: {{$vehiculo->tipo_vehiculos_id_tipo}} Nombre: {{$vehiculo->nombre}}</td>
                         <td>{{$vehiculo->placa}}</td>                  
                     <td>
                         <a href="{{URL::action('VehiculoController@edit',$vehiculo->id_vehiculo)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>

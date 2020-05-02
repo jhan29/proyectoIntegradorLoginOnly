@@ -27,8 +27,8 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <br>
-                            <label for="tipo_vehiculo_id_tipo">Tipo De Vehiculo:</label>
-                            <select type="number" name="tipo_vehiculo_id_tipo" id="tipo_vehiculo_id_tipo" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculo">
+                            <label for="tipo_vehiculos_id_tipo">Tipo De Vehiculo:</label>
+                            <select type="number" name="tipo_vehiculos_id_tipo" id="tipo_vehiculos_id_tipo" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculo">
                                 <option value="" disable>Seleccione EL Tipo De Vehiculo:</option>
                                 @foreach($tipo_vehiculo as $tipveh)   
                                 <option value="{{$tipveh->id_tipo}}">ID: {{$tipveh->id_tipo}} Nombre: {{$tipveh->nombre}}</option>
@@ -40,7 +40,7 @@
                         <div class="form-group">
                         <br>
                             <label for="placa">Placa Del Vehiculo</label>
-                                <input type="text" name="placa" id="placa" class="form-control" placeholder="Digite La Placa Del Vehiculo...">
+                                <input type="text" name="placa" id="placa" pattern="[A-Z]{3}[0-9]{3}|[A-Z]{3}[0-9]{2}[A-Z]" class="form-control" value="{{ old('placa') }}" placeholder="Digite La Placa Del Vehiculo...">
                         </div>
                     </div>         
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

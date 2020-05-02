@@ -28,9 +28,9 @@ class TarifaController extends Controller
         if ($request)
         {
             $query=trim($request->get('searchText'));
-            $tarifas=DB::table('tarifa')
-            ->where('tarifa.valor','LIKE','%'.$query.'%')
-            ->orderBy('tarifa.id_tarifa','desc')
+            $tarifas=DB::table('tarifa_vehiculos')
+            ->where('tarifa_vehiculos.valor_hora','LIKE','%'.$query.'%')
+            ->orderBy('tarifa_vehiculos.id_tarifa','desc')
             ->paginate(5);
 
             $tarifa =Tarifa::all();
@@ -47,15 +47,15 @@ class TarifaController extends Controller
     {
         $request->user()->authorizeRoles(['admin','emple']);
 
-        $idtarifa = DB::table('tarifa')->max('id_tarifa');
+        $idtarifa = DB::table('tarifa_vehiculos')->max('id_tarifa');
         if ($idtarifa==0) {
           $idtarifa=1;
         }else {
           $idtarifa = $idtarifa+1;
         }
         
-        $idtipovehiculo=DB::table('tipo_vehiculo')
-        ->select('tipo_vehiculo.nombre', 'tipo_vehiculo.id_tipo')
+        $idtipovehiculo=DB::table('tipo_vehiculos')
+        ->select('tipo_vehiculos.nombre', 'tipo_vehiculos.id_tipo')
         ->get();
 
         return view ('Tarifa.create',["idtarifa"=>$idtarifa,"idtipovehiculo"=>$idtipovehiculo]);
@@ -71,10 +71,9 @@ class TarifaController extends Controller
     {    
         $tarifa=new Tarifa;
         $tarifa->id_tarifa=$request->get('id_tarifa');
-        $tarifa->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo');
-        $tarifa->valor=$request->get('valor');
-        $tarifa->fecha_inicio=$request->get('fecha_inicio'); 
-        $tarifa->fecha_fin=$request->get('fecha_fin');
+        $tarifa->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo');
+        $tarifa->valor_hora=$request->get('valor_hora');
+        $tarifa->estado=$request->get('estado'); 
         $tarifa->save();
         //return Redirect::to('tarifa');
         echo    "<script>
@@ -105,7 +104,7 @@ class TarifaController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipovehiculo = DB::table('tipo_vehiculo')
+        $tipovehiculo = DB::table('tipo_vehiculos')
         ->get();
 
         $tarifa=Tarifa::findOrFail($id);
@@ -124,10 +123,9 @@ class TarifaController extends Controller
     {
         $tarifa = Tarifa::findOrFail($id);
         $tarifa->id_tarifa=$request->get('id_tarifa');
-        $tarifa->tipo_vehiculo_id_tipo=$request->get('tipo_vehiculo_id_tipo');
-        $tarifa->valor=$request->get('valor');  
-        $tarifa->fecha_inicio=$request->get('fecha_inicio'); 
-        $tarifa->fecha_fin=$request->get('fecha_fin');
+        $tarifa->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo');
+        $tarifa->valor_hora=$request->get('valor_hora');  
+        $tarifa->estado=$request->get('estado'); 
         $tarifa->update();
         //return Redirect::to('tarifa');
         echo    "<script>
@@ -148,10 +146,11 @@ class TarifaController extends Controller
         $request->user()->authorizeRoles('admin');
 
         $tarifa=Tarifa::findOrFail($id);
-        $tarifa->delete();
+        $tarifa->estado ='Inactivo';
+        $tarifa->update();
         //return Redirect::to('tarifa');
         echo    "<script>
-                    alert('Tarifa Eliminada');
+                    alert('Estado De La Tarifa Se Modifico Con Exito');
                     window.location.href = '/tarifa';
                 </script>";
         exit;
