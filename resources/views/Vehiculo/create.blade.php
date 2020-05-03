@@ -53,5 +53,31 @@
                     </div>
                 </div>
                                       
-            {!!Form::close()!!}       
+            {!!Form::close()!!}
+            @push('scripts')
+        <script>
+        
+            $("#tipo_vehiculos_id_tipo").change(mostrarTipoV);
+
+
+            function mostrarTipoV(){
+                tv =  $("#tipo_vehiculos_id_tipo").val()
+            
+                if(tv==1)
+                {
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{3}');
+                    $('#placa').attr("placeholder", "FORMATO PLACA AAA123");
+                }
+                else if(tv==2)
+                {
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{2}[A-Z]');
+                    $('#placa').attr("placeholder", "FORMATO PLACA MOTO AAA12A");
+                }
+                    else {
+                    $('#placa').attr("placeholder", "INGRESE PLACA");}
+            }
+
+
+        </script>
+    @endpush            
 @endsection

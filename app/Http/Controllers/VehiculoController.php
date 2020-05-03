@@ -24,7 +24,7 @@ class VehiculoController extends Controller
      */
     public function index(Request $request)
     {
-    $request->user()->authorizeRoles('admin');
+    $request->user()->authorizeRoles(['admin','emple']);
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -46,7 +46,7 @@ class VehiculoController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles('admin');
+        $request->user()->authorizeRoles(['admin','emple']);
 
         $tipo_vehiculo=DB::table('tipo_vehiculos')
         ->get();
