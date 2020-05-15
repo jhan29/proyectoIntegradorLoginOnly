@@ -53,10 +53,14 @@ class TarifaController extends Controller
         }else {
           $idtarifa = $idtarifa+1;
         }
-        
+
         $idtipovehiculo=DB::table('tipo_vehiculos')
-        ->select('tipo_vehiculos.nombre', 'tipo_vehiculos.id_tipo')
-        ->get();
+        ->whereNotIn('tipo_vehiculos.id_tipo', function($query){
+        $query -> select('tarifa_vehiculos.tipo_vehiculos_id_tipo')
+        ->from('tarifa_vehiculos')
+        ->where('tarifa_vehiculos.estado','=','Activo');
+    })
+    ->get();
 
         return view ('Tarifa.create',["idtarifa"=>$idtarifa,"idtipovehiculo"=>$idtipovehiculo]);
     }

@@ -269,7 +269,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{{url('ticket')}}"><i class="fa fa-usd"></i> <span>Ticket</span></a></li>
+        <li class="active"><a href="{{url('salida_vehiculo')}}"><i class="fa fa-usd"></i> <span>Salida Del Vehiculo</span></a></li>
         <li><a href="{{url('ingreso_vehiculo')}}"><i class="fa fa-send"></i> <span>Ingreso Al Parqueadero</span></a></li>
         <li><a href="{{url('tarifa')}}"><i class="fa fa-road"></i> <span>Tarifa</span></a></li>
         <li class="treeview">

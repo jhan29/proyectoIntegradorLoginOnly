@@ -45,9 +45,9 @@ class PdfController extends Controller
     public function imprimirVehiculos(Request $request){
         $request->user()->authorizeRoles(['admin','emple']);
 
-        $vehiculos = DB::table('vehiculo as ve')
-        ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
-        ->select('tv.nombre','ve.tipo_vehiculo_id_tipo','ve.id_vehiculo','ve.placa')
+        $vehiculos = DB::table('vehiculos as ve')
+        ->join('tipo_vehiculos as tv','tv.id_tipo','=','ve.tipo_vehiculos_id_tipo')
+        ->select('tv.nombre','ve.tipo_vehiculos_id_tipo','ve.id_vehiculo','ve.placa')
         ->get();
 
         //dd($vehiculos);
@@ -63,15 +63,15 @@ class PdfController extends Controller
     public function imprimirVehiculoEspecifico(Request $request,$id_vehiculo){
         $request->user()->authorizeRoles(['admin','emple']);
 
-        $vehiculoespecifico = DB::table('vehiculo as ve')
-        ->join('tipo_vehiculo as tv','tv.id_tipo','=','ve.tipo_vehiculo_id_tipo')
-        ->select('tv.nombre','ve.tipo_vehiculo_id_tipo','ve.id_vehiculo','ve.placa')
+        $vehiculoespecifico = DB::table('vehiculoS as ve')
+        ->join('tipo_vehiculos as tv','tv.id_tipo','=','ve.tipo_vehiculos_id_tipo')
+        ->select('tv.nombre','ve.tipo_vehiculos_id_tipo','ve.id_vehiculo','ve.placa')
         ->where('ve.id_vehiculo','=',$id_vehiculo)
         ->get();
 
         foreach ($vehiculoespecifico as $ve) {
             $tiponombre=$ve->nombre;
-            $tipovehiculoid=$ve->tipo_vehiculo_id_tipo;
+            $tipovehiculoid=$ve->tipo_vehiculos_id_tipo;
             $idvehiculo=$ve->id_vehiculo;
             $placavehiculo=$ve->placa;
         }

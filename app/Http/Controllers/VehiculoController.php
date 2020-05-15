@@ -72,7 +72,7 @@ class VehiculoController extends Controller
         $ciclo=$request->placa; //Guardo el valor del nombre, por medio del formulario
 
         $existencia = DB::table('vehiculos')   
-        ->select('id_vehiculo')
+        ->select('placa')
         ->where('placa', '=', $ciclo)
         ->get(); //realizo la sentencia para saber si existe
     
@@ -121,12 +121,12 @@ class VehiculoController extends Controller
     {
         $request->user()->authorizeRoles('admin');
 
-        $tipovehiculo=DB::table('tipo_vehiculos')
-        ->get();
-        
         $vehiculo=Vehiculo::findOrFail($id);
 
-        return view("Vehiculo.edit",["tipovehiculo"=>$tipovehiculo,"vehiculo"=>$vehiculo]);
+        $tipovehiculo=DB::table('tipo_vehiculos')
+        ->get();    
+
+        return view("Vehiculo.edit",["vehiculo"=>$vehiculo,"tipovehiculo"=>$tipovehiculo]);
         
     }
 

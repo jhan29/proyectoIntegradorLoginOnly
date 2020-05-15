@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-
+Route::resource('salida_vehiculo', 'Salida_VehiculoController');
+Route::resource('ingreso_vehiculo', 'Ingreso_VehiculoController');
 Route::resource('vehiculo', 'VehiculoController');
 Route::resource('persona', 'PersonaController');
 Route::resource('cliente', 'ClienteController');

@@ -31,7 +31,7 @@
                         <th>Placa:</th>
                     </tr>
                         <tr>                        
-                            <td>{{$id_vehiculo}}</td>
+                            <td>{{$idvehiculo}}</td>
                             <td>ID: {{$tipovehiculoid}} Nombre:{{$tiponombre}}</td>
                             <td>{{$placavehiculo}}</td>
                         </tr>

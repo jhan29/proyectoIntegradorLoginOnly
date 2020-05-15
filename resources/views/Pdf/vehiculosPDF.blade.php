@@ -36,7 +36,7 @@
                     foreach($vehiculos as $ve){?>
                         <tr>         
                             <td>{{$ve->id_vehiculo}}</td>             
-                            <td>ID: {{$ve->tipo_vehiculo_id_tipo}} Nombre:{{$ve->nombre}}</td>
+                            <td>ID: {{$ve->tipo_vehiculos_id_tipo}} Nombre:{{$ve->nombre}}</td>
                             <td>{{$ve->placa}}</td>
                         </tr>
                         <?php   }?>

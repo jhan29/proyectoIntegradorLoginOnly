@@ -29,12 +29,9 @@
                 <div class="form-group">
                     <label for="tipo_vehiculo_id_tipo">Tipo De Vehiculo</label>
                         <select name="tipo_vehiculos_id_tipo" id="tipo_vehiculos_id_tipo"  class="form-control selectpicker" data-live-search="true">
+                            <option value="" selected>Seleccione El Tipo De Vehiculo A Modificar:</option>
                             @foreach ($tipovehiculo as $tipo)
-                                @if($tipo->id_tipo == $vehiculo->tipo_vehiculos_id_tipo)
-                                    <option value="{{$vehiculo->tipo_vehiculos_id_tipo}}" selected >Nombre: {{$tipo->nombre}}</option>
-                                @else
-                                <option value="{{$vehiculo->tipo_vehiculos_id_tipo}}"  >Nombre: {{$tipo->nombre}}</option>
-                                @endif
+                                    <option value="{{$tipo->id_tipo}}"  >Nombre: {{$tipo->nombre}}</option>
                             @endforeach
                         </select>
                 </div>
@@ -42,7 +39,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label for="placa">Placa Del Vehiculo</label>
-                    <input type="text" name="placa" id="placa" pattern="[A-Z]{3}[0-9]{3}|[A-Z]{3}[0-9]{2}[A-Z]" class="form-control" value="{{$vehiculo->placa}}">
+                    <input type="text" name="placa" id="placa" class="form-control" value="{{$vehiculo->placa}}">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -54,5 +51,29 @@
             </div>
         </div>
 	{{Form::close()}}
+    @push('scripts')
+        <script>
+        
+            $("#tipo_vehiculos_id_tipo").change(mostrarTipoV);
+
+
+            function mostrarTipoV(){
+                tv =  $("#tipo_vehiculos_id_tipo").val()
+            
+                if(tv==1)
+                {
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{3}');
+                }
+                else if(tv==2)
+                {
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{2}[A-Z]');
+                }
+                    else {
+                    $('#placa').attr("placeholder", "INGRESE PLACA");}
+            }
+
+
+        </script>
+    @endpush            
 
 @endsection

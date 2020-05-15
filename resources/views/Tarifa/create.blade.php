@@ -31,7 +31,7 @@
                             <select type="text" name="tipo_vehiculos_id_tipo" id="tipo_vehiculos_id_tipo" value="{{ old('tipo_vehiculos_id_tipo') }}" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculos">
                                 <option value="" disable>Seleccione El Tipo De Vehiculo:</option>
                                 @foreach($idtipovehiculo as $tipo)
-                                <option value="{{$tipo->id_tipo}}">ID: {{$tipo->id_tipo}} - Nombre: {{$tipo->nombre}}</option>
+                                <option value="{{$tipo->id_tipo}}">{{$tipo->nombre}}</option>
                                 @endforeach
                             </select>
                         </div>

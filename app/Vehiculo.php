@@ -12,4 +12,9 @@ class Vehiculo extends Model
   
     public $timestamps=false;
     protected $fillable = ['tipo_vehiculos_id_tipo', 'placa'];
+
+    public function ingreso_vehiculo()
+    {
+    return $this->hasManythrough(Ticket::class,Ingreso_Vehiculo::class);
+    } 
 }
