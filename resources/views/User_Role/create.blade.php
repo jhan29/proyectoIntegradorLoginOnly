@@ -22,7 +22,7 @@
                     <select name="user_id" id="user_id" class="form-control selectpicker" data-live-search="true" required>
                         <option value="">SELECCIONE EL USUARIO ASIGNAR ROL:</option>
                         @foreach($users as $user)
-                        <option value="{{$user->id}}">Nombre: {{ $user->name}} Email: {{ $user->email}}</option>
+                        <option value="{{$user->id}}">Identificación: {{ $user->identification}} - Nombre: {{ $user->name}}</option>
                         @endforeach
                     </select>
             </div>

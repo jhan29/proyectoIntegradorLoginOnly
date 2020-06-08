@@ -30,11 +30,10 @@ class UserRoleController extends Controller
             $user_role=DB::table('role_user as ru')
             ->join('users as u','u.id','=','ru.user_id')
             ->join('roles as ro','ro.id','=','ru.role_id')
-            ->select('ru.id','u.name','ro.name','ro.description')
+            ->select('ru.id','u.name','ro.name as rol','u.identification as identificacion')
             ->where('u.name','LIKE','%'.$query.'%')
             ->orwhere('ro.name','LIKE','%'.$query.'%')
             ->orderBy('ru.id','desc')
-            ->groupBy('ru.id','u.name','ro.name','ro.description')
             ->paginate(10);
             return view('User_Role.index',["user_role"=>$user_role,"searchText"=>$query]);
         }
@@ -59,7 +58,7 @@ class UserRoleController extends Controller
        ->get();*/
 
        $users=DB::table('users')
-       ->select('users.name','users.email','users.id')
+       ->select('users.name','users.identification','users.id')
        ->where('users.estado','=','Activo')
         ->get();
       

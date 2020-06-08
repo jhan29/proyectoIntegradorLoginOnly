@@ -44,7 +44,7 @@ class PdfController extends Controller
     
     //REPORTE DE TODOS LOS VEHICULOS QUE ESTEN EN LA BD
     public function imprimirVehiculos(Request $request){
-        $request->user()->authorizeRoles(['admin','emple']);
+        $request->user()->authorizeRoles(['admin','operario']);
 
         $vehiculos = DB::table('vehiculos as ve')
         ->join('tipo_vehiculos as tv','tv.id_tipo','=','ve.tipo_vehiculos_id_tipo')
@@ -62,7 +62,7 @@ class PdfController extends Controller
     }
     //REPORTE EN PDF DE LOS VEHICULOS EN ESPECIFICO QUE ESTEN EN LA BD, CON PARAMETROS (ID_VEHICULO)
     public function imprimirVehiculoEspecifico(Request $request,$id_vehiculo){
-        $request->user()->authorizeRoles(['admin','emple']);
+        $request->user()->authorizeRoles(['admin','operario']);
 
         $vehiculoespecifico = DB::table('vehiculoS as ve')
         ->join('tipo_vehiculos as tv','tv.id_tipo','=','ve.tipo_vehiculos_id_tipo')
@@ -91,7 +91,7 @@ class PdfController extends Controller
     //REPORTE DE TODOS LOS VEHICULOS QUE HAYAN INGRESO AL PARQUEADERO
     public function imprimirIngreso_vehiculos(Request $request)
     {
-
+        $request->user()->authorizeRoles(['admin','operario']);
         $ingreso = DB::table('ingreso_vehiculos as i')
             ->join('vehiculos as ve', 've.Id_Vehiculo', '=', 'i.Vehiculos_Id_Vehiculo')
             ->join('tipo_vehiculos as tv', 'tv.Id_Tipo', '=', 've.tipo_vehiculos_id_tipo')
@@ -109,7 +109,7 @@ class PdfController extends Controller
     }
     //REPORTE PDF INGRESO DE VEHICULO EN ESPECIFICO, ENVIANDOLE PARAMETROS (ID_INGRESO)
     public function imprimirIngresoEspecifico(Request $request,$id_ingreso){
-        $request->user()->authorizeRoles(['admin','emple']);
+        $request->user()->authorizeRoles(['admin','operario']);
 
         $ingresoespecifico = DB::table('ingreso_vehiculos as iv')
         ->join('vehiculos as v','v.id_vehiculo','=','iv.vehiculos_id_vehiculo')
@@ -146,7 +146,7 @@ class PdfController extends Controller
     //SALIDA ESPECIFICA //
     public function imprimirSalidaEspecifico(Request $request, $ingreso_vehiculos_id_ingreso)
     {
-        
+        $request->user()->authorizeRoles(['admin','operario']);
         $salidaespecifico = DB::table('salida_vehiculos as sv')
             ->join('ingreso_vehiculos as iv', 'iv.id_ingreso', '=', 'sv.ingreso_vehiculos_id_ingreso')
             ->join('vehiculos as v','v.id_vehiculo','=','iv.vehiculos_id_vehiculo')
