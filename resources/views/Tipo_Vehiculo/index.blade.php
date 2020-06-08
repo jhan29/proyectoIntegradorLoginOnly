@@ -2,18 +2,21 @@
 @section ('contenido')
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h3>Listado De Los Tipo De Vehiculos <a href="tipo_vehiculo/create">
+            <h3>Crear Tipo De Vehiculo <a href="tipo_vehiculo/create">
                 <button class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> Nuevo</button></a></h3>
-                
+                <br>
+                <h3>Buscar:</h3>           
                 @include('Tipo_Vehiculo.search')
+                <br>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h3>Listado De Los Tipo De Vehiculos </h3>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead>
-                        <th>Id Tipo</th>
+                        <th>Tipo Número:</th>
                         <th>Tipo De Vehiculo</th>
                         <th>Descripcion</th>
                         <th>Opciones</th>

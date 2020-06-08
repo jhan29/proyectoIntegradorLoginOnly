@@ -39,26 +39,18 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                         <br>
-                            <label for="valor_hora">Valor Tarifa * Hora: </label>
-                                <input type="number" name="valor_hora" id="valor_hora" value="{{ old('valor_hora') }}" class="form-control" placeholder="Digite El Valor De La Tarifa * Hora...">
+                            <label for="valor_hora">Valor/Hora: </label>
+                                <input type="number" name="valor_hora" id="valor_hora" value="{{ old('valor_hora') }}" class="form-control" placeholder="Digite El Valor/Hora para ese vehiculo">
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <label for="estado">Estado: </label>
-                                <input type="text" name="estado" id="estado" value="Activo" value="{{ old('estado') }}" class="form-control" readonly>
-                        </div>
-                    </div>                   
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
-                                <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
-                                <a class="btn btn-info" type="reset" href="{{url('tarifa')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
-                        </div>
-                    </div>
+                    </div>  
                 </div>
+                <div class="form-group">
+                    <br>
+                        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+                            <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
+                            <a class="btn btn-info" type="reset" href="{{url('tarifa')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
+                </div>
+                
                                       
             {!!Form::close()!!}       
 @endsection

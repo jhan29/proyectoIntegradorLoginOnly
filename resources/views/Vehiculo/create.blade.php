@@ -42,16 +42,14 @@
                             <label for="placa">Placa Del Vehiculo</label>
                                 <input type="text" name="placa" id="placa"  class="form-control" value="{{ old('placa') }}" placeholder="Digite La Placa Del Vehiculo...">
                         </div>
-                    </div>         
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                        <br>
-                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
-                                <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
-                                <a class="btn btn-info" type="reset" href="{{url('vehiculo')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
-                        </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <br>
+                    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+                    <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
+                    <a class="btn btn-info" type="reset" href="{{url('vehiculo')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
+                </div>      
                                       
             {!!Form::close()!!}
             @push('scripts')
@@ -65,13 +63,13 @@
             
                 if(tv==1)
                 {
-                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{3}');
-                    $('#placa').attr("placeholder", "FORMATO PLACA AAA123");
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{3}|[a-z]{3}[0-9]{3}');
+                    $('#placa').attr("placeholder", "FORMATO PLACA: AAA123 o aaa123");
                 }
                 else if(tv==2)
                 {
-                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{2}[A-Z]');
-                    $('#placa').attr("placeholder", "FORMATO PLACA MOTO AAA12A");
+                    $('#placa').attr("pattern", '[A-Z]{3}[0-9]{2}[A-Z]|[a-z]{3}[0-9]{2}[a-z]');
+                    $('#placa').attr("placeholder", "FORMATO PLACA MOTO: AAA12A o aaa12a");
                 }
                     else {
                     $('#placa').attr("placeholder", "INGRESE PLACA");}

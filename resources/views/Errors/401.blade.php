@@ -5,7 +5,7 @@
       <h3>No tienes acceso a este modulo, por favor comunicate con el administrador</h3>
     </div>
     <div class="links">
-      <a href="/persona">Ir al menu de personas </a>
+      <a href="/vehiculo">Ir Al Menú De Vehiculos </a>
   </div>
 
 @endsection

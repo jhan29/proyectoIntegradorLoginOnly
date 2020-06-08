@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('welcome');
 });
 
 Route::resource('salida_vehiculo', 'Salida_VehiculoController');
@@ -26,11 +26,13 @@ Route::resource('tarifa', 'TarifaController');
 Route::resource('usuario_role', 'UserRoleController');
 Route::resource('role', 'RoleController');
 
+Route::get('ingreso_vehiculo/estadovehiculo','Ingreso_VehiculoController@estadovehiculo')->name('estadovehiculo');
 
-Route::get('imprimirClientes','PdfController@imprimirClientes')->name('PdfController.imprimirClientes');
-Route::get('imprimirPersonas','PdfController@imprimirPersonas')->name('PdfController.imprimirPersonas');
 Route::get('imprimirVehiculos','PdfController@imprimirVehiculos')->name('PdfController.imprimirVehiculos');
 Route::get('imprimirVehiculoEspecifico/{id_vehiculo}','PdfController@imprimirVehiculoEspecifico')->name('PdfController.imprimirVehiculoEspecifico');
+Route::get('imprimirIngreso_vehiculos','PdfController@imprimirIngreso_vehiculos')->name('PdfController.imprimirIngreso_vehiculos');
+Route::get('imprimirIngresoEspecifico/{id_ingreso}','PdfController@imprimirIngresoEspecifico')->name('PdfController.imprimirIngresoEspecifico');
+Route::get('imprimirSalidaEspecifico/{id_ticket}','PdfController@imprimirSalidaEspecifico')->name('PdfController.imprimirSalidaEspecifico');
 
 Auth::routes();
 

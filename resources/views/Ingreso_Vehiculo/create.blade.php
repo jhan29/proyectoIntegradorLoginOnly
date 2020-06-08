@@ -22,7 +22,7 @@
 
         <div class="form-group">
                 <label for="Role">PLACA</label>
-                    <select name="vehiculos_id_vehiculo" id="vehiculos_id_vehiculo" class="form-control selectpicker" data-livesearch="true">
+                    <select name="vehiculos_id_vehiculo" id="vehiculos_id_vehiculo" class="form-control selectpicker" data-live-search="true" data-header="Listado De Los Tipos De Vehiculo">
                         <option value="" selected>SELECCIONE LA PLACA DEL VEHICULO:</option>
                         @foreach($vehiculo as $vehiculo)
                         <option value="{{$vehiculo->id_vehiculo}}">ID: {{$vehiculo->id_vehiculo}} - Tipo: {{$vehiculo->nombre}} - Placa: {{$vehiculo->placa }}</option>
@@ -30,12 +30,12 @@
                     </select>
         </div>
 
-            <!--<div class="form-group">
-                <label for="Valor">Fecha</label>
-                    <input type="text" name="valor" class="form-control" placeholder="valor Hora..." value="{{date('Y-m-d H:i:s') }}" disable>
+            <div class="form-group">
+                <label for="Valor">Fecha/Hora Ingreso Del Vehiculo</label>
+                    <input type="text" name="fecha_ingreso" id="fecha_ingreso" class="form-control"  value="{{date('Y-m-d H:i:s') }}" readonly>
             </div>
 
-            <div class="form-group">
+            <!--<div class="form-group">
             <label for="estado">Estado</label>
                 <input type="text" name="estado" class="form-control" placeholder="Estado. 1. Activo 0.Inactivo.">-->
 

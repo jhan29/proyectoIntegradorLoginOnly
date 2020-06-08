@@ -22,18 +22,18 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label for="id_tarifa">Vehiculo Numero:</label>
-                    <input type="number" name="id_tarifa" class="form-control" value="{{$tarifa->id_tarifa}}">
+                    <input type="number" name="id_tarifa" class="form-control" value="{{$tarifa->id_tarifa}}" readonly>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label for="tipo_vehiculos_id_tipo">Tipo De Vehiculo</label>
                         <select name="tipo_vehiculos_id_tipo" id="tipo_vehiculos_id_tipo"  class="form-control selectpicker" data-live-search="true">
-                            @foreach ($tipovehiculo as $tipo)
+                           @foreach ($tipovehiculo as $tipo)
                                 @if($tipo->id_tipo == $tarifa->tipo_vehiculos_id_tipo)
                                     <option value="{{$tarifa->tipo_vehiculos_id_tipo}}" selected >Nombre: {{$tipo->nombre}}</option>
                                 @else
-                                    <option value="{{$tarifa->tipo_vehiculos_id_tipo}}"  >Nombre: {{$tipo->nombre}}</option>
+                                    <option value="{{$tarifa->tipo_vehiculos_id_tipo}}" disabled>Nombre: {{$tipo->nombre}}</option>
                                 @endif
                             @endforeach
                         </select>

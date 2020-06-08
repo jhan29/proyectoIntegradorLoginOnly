@@ -25,22 +25,22 @@ class Ingreso_VehiculoController extends Controller
      */
     public function index(Request $request)
     {
-    $request->user()->authorizeRoles(['admin','emple']);
+    $request->user()->authorizeRoles(['operario','admin']);
         if ($request)
         {
             $query=trim($request->get('searchText'));
             $ingresos=DB::table('ingreso_vehiculos as iv')
             ->join('vehiculos as v','v.id_vehiculo','=','iv.vehiculos_id_vehiculo')
+            ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
             ->join('users as u','u.id','=','iv.users_id')
             ->select('iv.id_ingreso','iv.fecha_ingreso','u.name','iv.users_id',
-            'iv.vehiculos_id_vehiculo','v.placa','iv.estado')
+            'iv.vehiculos_id_vehiculo','v.placa','iv.estado', 'tv.nombre')
             ->where('v.placa','LIKE','%'.$query.'%')
+            ->where('iv.estado','Activo')
             ->orderBy('iv.id_ingreso','desc')
             ->paginate(5);
 
-            $ingreso = Ingreso_vehiculo::all();
-
-            return view('Ingreso_Vehiculo.index',["ingresos"=>$ingresos,"searchText"=>$query])->with('ingreso',$ingreso);
+            return view('Ingreso_Vehiculo.index',["ingresos"=>$ingresos,"searchText"=>$query]);
         }
     }
 
@@ -49,12 +49,22 @@ class Ingreso_VehiculoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $vehiculo=DB::table('vehiculos as v')
+        $request->user()->authorizeRoles(['operario','admin']);
+        /*$vehiculo=DB::table('vehiculos as v')
             ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
             ->select('v.placa','v.id_vehiculo','tv.nombre')
-            ->get();
+            ->get();*/
+
+        $vehiculo=DB::table('vehiculos as v')
+        ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
+        ->whereNotIn('v.id_vehiculo', function($query){
+        $query -> select('ingreso_vehiculos.vehiculos_id_vehiculo')
+        ->from('ingreso_vehiculos')
+        ->where('ingreso_vehiculos.estado','=','Activo');
+        })
+        ->get();
 
         $idingreso = DB::table('ingreso_vehiculos')->max('id_ingreso');
         if ($idingreso==0) {
@@ -151,16 +161,15 @@ class Ingreso_VehiculoController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $request->user()->authorizeRoles('admin');
+        /*$request->user()->authorizeRoles('operario');
 
         $ingreso=Ingreso_Vehiculo::findOrFail($id);
         $ingreso->delete();
         //return Redirect::to('vehiculo');
-        echo    "<script>
-                    alert('Ingreso Del Vehiculo Eliminado');
-                    window.location.href = '/ingreso_vehiculo';
-                </script>";
-        exit;
-    
+            echo    "<script>
+                        alert('Ingreso Del Vehiculo Eliminado');
+                        window.location.href = '/ingreso_vehiculo';
+                    </script>";
+                exit;*/
     }
 }

@@ -12,25 +12,26 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead>
-                        <th>Numero Ticket</th>
                         <th>Datos Del Ingreso</th>
-                        <th>Datos Del Vehiculo</th> 
+                        <th>Datos Del Vehiculo</th>
+                        <th>Fecha Ingreso</th> 
                         <th>Fecha Salida</th>
-                        <th>Valor- Hora</th>
+                        <th>Valor/Hora</th>
                         <th>Total</th>
                         <th>Opciones</th>
                     </thead>
                     @if($salidas->count())
                     @foreach ($salidas as $s)
                     <tr>
-                        <td>{{$s->id_ticket}}</td>
-                        <td>ID: {{$s->id_ingreso}} - Estado: {{$s->estado}}</td>
-                        <td>Tipo: {{ $s->nombre}} - Placa: {{ $s->placa}}</td>
+                        <td>Ingreso: {{$s->id_ingreso}} <br> Estado: {{$s->estado}}</td>
+                        <td>Tipo: {{ $s->nombre}} <br> Placa: {{ $s->placa}}</td>
+                        <td>{{ $s->fecha_ingreso}}</td>
                         <td>{{ $s->fecha_salida}}</td>
-                        <td>{{ $s->valor_hora}}</td>
-                        <td>{{ $s->total}}</td>
+                        <td>${{number_format($s->valor_hora)}}</td>
+                        <td>${{number_format($s->total)}}</td>
                         <td>
-                        <a href="" data-target="#modal-delete-{{$s->id_ticket}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Eliminar </button></a>
+                        <!--<a href="" data-target="#modal-delete-{{$s->id_ticket}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Eliminar </button></a>-->
+                        <a href="/imprimirSalidaEspecifico/{{$s->id_ticket}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Generar PDF</button></a>
                         </td>
                     </tr>
                     @include('Salida_Vehiculo.modal')

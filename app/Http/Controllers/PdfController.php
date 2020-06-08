@@ -11,7 +11,7 @@ use DB;
 
 class PdfController extends Controller
 {
-    public function imprimirPersonas(Request $request){
+    /*public function imprimirPersonas(Request $request){
         $request->user()->authorizeRoles(['admin','emple']);
         
         $personas = DB::table('persona')
@@ -40,8 +40,9 @@ class PdfController extends Controller
 
             $pdf->setPaper('carta', 'A4');
             return $pdf->download('Listado De Cliente.pdf');
-    }
-
+    }*/
+    
+    //REPORTE DE TODOS LOS VEHICULOS QUE ESTEN EN LA BD
     public function imprimirVehiculos(Request $request){
         $request->user()->authorizeRoles(['admin','emple']);
 
@@ -59,7 +60,7 @@ class PdfController extends Controller
             $pdf->setPaper('carta', 'A4');
             return $pdf->download('Listado De Vehiculos.pdf');
     }
-
+    //REPORTE EN PDF DE LOS VEHICULOS EN ESPECIFICO QUE ESTEN EN LA BD, CON PARAMETROS (ID_VEHICULO)
     public function imprimirVehiculoEspecifico(Request $request,$id_vehiculo){
         $request->user()->authorizeRoles(['admin','emple']);
 
@@ -86,5 +87,96 @@ class PdfController extends Controller
             
             $pdf->setPaper('carta', 'A4');
             return $pdf->download('Vehiculo Especifico.pdf');
+    }
+    //REPORTE DE TODOS LOS VEHICULOS QUE HAYAN INGRESO AL PARQUEADERO
+    public function imprimirIngreso_vehiculos(Request $request)
+    {
+
+        $ingreso = DB::table('ingreso_vehiculos as i')
+            ->join('vehiculos as ve', 've.Id_Vehiculo', '=', 'i.Vehiculos_Id_Vehiculo')
+            ->join('tipo_vehiculos as tv', 'tv.Id_Tipo', '=', 've.tipo_vehiculos_id_tipo')
+            ->join('users as u','u.id','=','i.users_id')
+            ->select('ve.Id_Vehiculo', 've.Placa', 'i.Fecha_Ingreso', 'i.Estado', 'tv.Nombre', 'u.name')
+            ->get();
+
+        $pdf = \PDF::loadView('Pdf.ingreso_vehiculosPDF', [
+            'ingreso' => $ingreso
+            ]);
+            
+        $pdf->setPaper('carta', 'A4');
+
+        return $pdf->download('Listado de Vehiculos.pdf');
+    }
+    //REPORTE PDF INGRESO DE VEHICULO EN ESPECIFICO, ENVIANDOLE PARAMETROS (ID_INGRESO)
+    public function imprimirIngresoEspecifico(Request $request,$id_ingreso){
+        $request->user()->authorizeRoles(['admin','emple']);
+
+        $ingresoespecifico = DB::table('ingreso_vehiculos as iv')
+        ->join('vehiculos as v','v.id_vehiculo','=','iv.vehiculos_id_vehiculo')
+        ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
+        ->join('users as u','u.id','=','iv.users_id')
+        ->select('v.id_vehiculo', 'v.placa', 'iv.id_ingreso', 'iv.fecha_ingreso', 'iv.estado', 'tv.nombre', 'u.name')
+        ->where('iv.id_ingreso','=',$id_ingreso)
+        ->get();
+        
+        foreach ($ingresoespecifico as $in) {
+            $idvehiculo=$in->id_vehiculo;
+            $placavehiculo=$in->placa;
+            $idingreso=$in->id_ingreso;
+            $fechaingreso=$in->fecha_ingreso;
+            $estadoin=$in->estado;
+            $tipovehiculo=$in->nombre;
+            $nombreusuario=$in->name;
+        }
+
+        $pdf = \PDF::loadView('Pdf.ingreso_vehiculosEspecificoPDF',[
+            'idvehiculo' => $idvehiculo,
+            'placavehiculo' => $placavehiculo,
+            'fechaingreso' => $fechaingreso,
+            'estado' => $estadoin,
+            'idingreso' => $idingreso,
+            'tipovehiculo' => $tipovehiculo,
+            'nombreusuario' => $nombreusuario,
+            ]);
+            
+            $pdf->setPaper('carta', 'A4');
+
+            return $pdf->download('Ingreso Especifico.pdf');
+    }
+    //SALIDA ESPECIFICA //
+    public function imprimirSalidaEspecifico(Request $request, $ingreso_vehiculos_id_ingreso)
+    {
+        
+        $salidaespecifico = DB::table('salida_vehiculos as sv')
+            ->join('ingreso_vehiculos as iv', 'iv.id_ingreso', '=', 'sv.ingreso_vehiculos_id_ingreso')
+            ->join('vehiculos as v','v.id_vehiculo','=','iv.vehiculos_id_vehiculo')
+            ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
+            ->select('iv.id_ingreso', 'v.placa', 'iv.fecha_ingreso', 'sv.fecha_salida', 'tv.nombre', 'sv.total')    
+            ->where('sv.ingreso_vehiculos_id_ingreso', '=', $ingreso_vehiculos_id_ingreso)
+            ->get();
+        //dd($salidaespecifico);
+
+        foreach ($salidaespecifico as $s){
+            $idingreso = $s->id_ingreso;
+            $placavehiculo = $s->placa;
+            $fechaingreso = $s->fecha_ingreso;
+            $fechasalida = $s->fecha_salida;
+            $tiponombre = $s->nombre;
+            $valortotal = $s->total;
+        }
+
+        $pdf = \PDF::loadView('Pdf.salida_vehiculosEspecificoPDF', [
+            'placavehiculo' => $placavehiculo,
+            'fechaingreso' => $fechaingreso,
+            'fechasalida' => $fechasalida,
+            'idingreso' => $idingreso,
+            'tiponombre' => $tiponombre,
+            'valortotal' => $valortotal,
+
+        ]);
+        $pdf->setPaper('carta', 'A4');
+
+        return $pdf->download('Salida Vehiculo Especifico.pdf');
+      
     }
 }

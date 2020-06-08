@@ -21,6 +21,7 @@ class Salida_VehiculoController extends Controller
      */
     public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['operario','admin']);
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -29,10 +30,10 @@ class Salida_VehiculoController extends Controller
             ->join('vehiculos as ve','ve.id_vehiculo','=','inve.vehiculos_id_vehiculo')
             ->join('tipo_vehiculos as tive','tive.id_tipo','=','ve.tipo_vehiculos_id_tipo')
             ->join('tarifa_vehiculos as tave','tave.tipo_vehiculos_id_tipo','=','tive.id_tipo')
-            ->select('save.id_ticket','inve.id_ingreso','inve.estado','tive.nombre','ve.placa','save.fecha_salida','tave.valor_hora','save.total')
+            ->select('save.id_ticket','inve.id_ingreso','inve.estado','tive.nombre','ve.placa','inve.fecha_ingreso','save.fecha_salida','tave.valor_hora','save.total')
             ->where('ve.placa','LIKE','%'.$query.'%')
             ->where('tave.estado','=','Activo')
-            //->where('inve.estado','=','Activo')
+            ->where('inve.estado','=','Inactivo')
             ->paginate(10);
 
             return view('Salida_Vehiculo.index',["salidas"=>$salidas,"searchText"=>$query]);
@@ -44,8 +45,10 @@ class Salida_VehiculoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles(['operario','admin']);
+
         $idsalida = DB::table('salida_vehiculos')->max('id_ticket');
         if ($idsalida==0) {
           $idsalida=1;
@@ -55,8 +58,11 @@ class Salida_VehiculoController extends Controller
 
         $idingreso = DB::table('ingreso_vehiculos as iv')
         ->join('vehiculos as v','iv.vehiculos_id_vehiculo','=','v.id_vehiculo')
-        ->select('iv.id_ingreso','iv.estado','v.placa')
+        ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
+        ->join('tarifa_vehiculos as t','tv.id_tipo','=','t.tipo_vehiculos_id_tipo')
+        ->select('iv.id_ingreso','iv.estado','t.estado','v.placa')
         ->where('iv.estado','=','Activo')
+        ->where('t.estado','=','Activo')
         ->get();
 
         return view ('Salida_Vehiculo.create',["idsalida"=>$idsalida, "idingreso"=>$idingreso]);
@@ -74,7 +80,13 @@ class Salida_VehiculoController extends Controller
 
         $ingreso =Ingreso_vehiculo::findOrFail($idingreso2);
 
+        $mytime=Carbon::now('America/Bogota');
+
         $horas=$ingreso->fecha_ingreso->diffInHours();
+
+        $minutos=$ingreso->fecha_ingreso->diffInMinutes();
+
+        //dd($ingreso->fecha_ingreso->format('h:i'));
 
         $valor=DB::table('ingreso_vehiculos as iv')
             ->join('vehiculos as v','v.id_vehiculo', '=','iv.vehiculos_id_vehiculo')
@@ -83,13 +95,35 @@ class Salida_VehiculoController extends Controller
             ->select('t.valor_hora')
             ->where('iv.id_ingreso','=',$request->ingreso_vehiculos_id_ingreso)
             ->get();
-             //PASO LA CONSULTA DEL STOCK A UNA VARIABLE NUMERICO
+             //TRANFORMADO TODA ESA CONSULTA ARRAY, CONVERTIR EL ATRIBUTO VALOR_HORA EN VARIABLE
             foreach ($valor as $v) {
                 $valor2=$v->valor_hora;
               }
-        if($horas == 0){
+
+        if($minutos > 14 && $minutos <= 59){ //SI ES MAYOR A 15 MINUTOS SE LE COBRA EL VALOR DE LA TARIFA
 
         $total=$valor2;
+
+        $salida=new Salida_Vehiculo;
+        $salida->id_ticket=$request->get('id_ticket');
+        //$mytime=Carbon::now('America/Bogota');
+        $salida->fecha_salida = $mytime->toDateTimeString();
+        $salida->total = $total;
+        $salida->ingreso_vehiculos_id_ingreso=$request->get('ingreso_vehiculos_id_ingreso');
+        $salida->save();
+
+        $ingreso->estado='Inactivo'; //Inactivo
+        $ingreso->update();
+        //return Redirect::to('salida_vehiculo');
+        echo    "<script>
+                        alert('Salida Del Vehiculo Exitosa');
+                        window.location.href = 'salida_vehiculo';
+                    </script>";
+            exit;
+
+        }elseif ($horas >= 1){ //SI ES MAYOR A UNA HORA ENTONCES APLICA EL VALOR DE LA TARIFA DIFERENTE
+
+        $total=(1+$horas)*$valor2;
 
         $salida=new Salida_Vehiculo;
         $salida->id_ticket=$request->get('id_ticket');
@@ -107,9 +141,9 @@ class Salida_VehiculoController extends Controller
                         window.location.href = 'salida_vehiculo';
                     </script>";
             exit;
-        }else{
 
-        $total=$horas*$valor2;
+        }else{//NO A CUMPLIDO LOS 15 MINUTOS
+        $total=$valor2*0;
 
         $salida=new Salida_Vehiculo;
         $salida->id_ticket=$request->get('id_ticket');
@@ -172,7 +206,7 @@ class Salida_VehiculoController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $request->user()->authorizeRoles('admin');
+        /*$request->user()->authorizeRoles(['operario','admin']);
 
         $salida=Salida_Vehiculo::findOrFail($id);
         $salida->delete();
@@ -181,6 +215,6 @@ class Salida_VehiculoController extends Controller
                     alert('Ingreso Del Vehiculo Eliminado');
                     window.location.href = '/salida_vehiculo';
                 </script>";
-        exit;
+        exit;*/
     }
 }

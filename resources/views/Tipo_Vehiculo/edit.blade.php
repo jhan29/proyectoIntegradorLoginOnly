@@ -27,19 +27,13 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label for="nombre">Tipo De Vehiculo</label>
+                    <label for="nombre">Nombre Del Tipo:</label>
                         <select name="nombre" id="nombre"  class="form-control selectpicker" data-live-search="true">
                             @if($tipo_vehiculo->nombre=='Automovil')
                             <option value="{{$tipo_vehiculo->nombre}}" selected >{{$tipo_vehiculo->nombre}}</option>
                             <option value="Moticicleta" disabled >Moticicleta</option>
-                            <option value="Buseta" disabled >Buseta</option>
                             @elseif ($tipo_vehiculo->nombre=='Motocicleta')
                             <option value="Automovil" disabled >Automovil</option>
-                            <option value="{{$tipo_vehiculo->nombre}}" selected >{{$tipo_vehiculo->nombre}}</option>
-                            <option value="Buseta" disabled >Buseta</option>
-                            @elseif ($tipo_vehiculo->nombre=='Otro')
-                            <option value="Automovil" disabled >Automovil</option>
-                            <option value="Moticicleta" disabled >Moticicleta</option>
                             <option value="{{$tipo_vehiculo->nombre}}" selected >{{$tipo_vehiculo->nombre}}</option>
                             @endif
                         </select>
@@ -51,14 +45,13 @@
                     <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{$tipo_vehiculo->descripcion}}">
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        </div>
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-refresh"></span> Actualizar </button>
                     <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-repeat"></span> Renovar</button>
                     <a class="btn btn-info" type="reset" href="{{url('tipo_vehiculo')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
                 </div>   
-            </div>
-        </div>
+        
 	{{Form::close()}}
 
 @endsection

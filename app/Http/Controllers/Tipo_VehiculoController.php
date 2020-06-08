@@ -72,7 +72,7 @@ class Tipo_VehiculoController extends Controller
        if (count($existencia) >= 1) {   //aqui valido si son iguales en el campo de la db y 
 
             echo    "<script>
-                        alert('No puedes registrar dos veces el nombre del tipo de vehiculo');
+                        alert('Nombre Del Tipo De Vehiculo Existente');
                         window.location.href = 'tipo_vehiculo/create';
                     </script>";
             exit;
@@ -130,7 +130,12 @@ class Tipo_VehiculoController extends Controller
         $tipo_vehiculo->nombre=$request->get('nombre');
         $tipo_vehiculo->descripcion=$request->get('descripcion');  
         $tipo_vehiculo->update();
-        return Redirect::to('tipo_vehiculo');
+        //return Redirect::to('tipo_vehiculo');
+        echo    "<script>
+                        alert('Tipo Vehiculo Actualizado');
+                        window.location.href = '/tipo_vehiculo';
+                    </script>";
+            exit;
     }
 
     /**
@@ -144,7 +149,29 @@ class Tipo_VehiculoController extends Controller
         $request->user()->authorizeRoles('admin');
 
         $tipo_vehiculo=Tipo_Vehiculo::findOrFail($id);
+
+        $existencia=DB::table('tipo_vehiculos as tv')
+        ->where('tv.id_tipo','=',$id)
+        ->whereIn('tv.id_tipo', function($query){
+        $query -> select('tarifa_vehiculos.tipo_vehiculos_id_tipo')
+        ->from('tarifa_vehiculos');
+        })
+        ->get();
+        
+        if (count($existencia)>=1) {
+            echo    "<script>
+                        alert('No Se Puede Elimar, El Tipo Esta Registrado En La Tarifas');
+                        window.location.href = '/vehiculo';
+                    </script>";
+            exit;
+        }else{
         $tipo_vehiculo->delete();
-        return Redirect::to('tipo_vehiculo');;
+        //return Redirect::to('tipo_vehiculo');
+        echo    "<script>
+                    alert('Tipo Veiculo Eliminado');
+                    window.location.href = '/tipo_vehiculo';
+                </script>";
+            exit;
+        }
     }
 }

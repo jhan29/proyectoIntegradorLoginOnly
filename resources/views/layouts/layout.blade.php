@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Starter</title>
+  <title>Parqueadero VIDA Web</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
@@ -22,6 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect. -->
   <!-- Latest compiled and minified CSS SELECTPICKER-->
   <link rel="stylesheet" href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css')}}">
+  <link rel="shortcut icon" href="{{asset('fondos/FondoPanel.png')}}">
   <link rel="stylesheet" href="{{asset('dist/css/skins/skin-blue.min.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -34,6 +35,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+    .content-wrapper {
+      background: url("../fondos/FondoOpacidad20.png") no-repeat center #fff;
+    }
+
+ 
+    }
+  </style>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -64,9 +73,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>P</b>VW</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Parqueadero </b>PV</span>
     </a>
 
     <!-- Header Navbar -->
@@ -181,17 +190,24 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{auth()->user()->name}}</span>
+              @if (Route::has('login'))
+                @if (Auth::check())
+                <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                @endif
+                @endif
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
-                <p>
-                {{auth()->user()->name}} - Web Developer
-                  <small>Member since Nov. 2012</small>
-                </p>
+                <p>@if (Route::has('login'))
+                    @if (Auth::check())
+                    {{ Auth::user()->name }}
+                    @endif
+                    @endif
+                    <small>Member since Nov. 2012</small>
+                  </p>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
@@ -269,30 +285,30 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{{url('salida_vehiculo')}}"><i class="fa fa-usd"></i> <span>Salida Del Vehiculo</span></a></li>
-        <li><a href="{{url('ingreso_vehiculo')}}"><i class="fa fa-send"></i> <span>Ingreso Al Parqueadero</span></a></li>
-        <li><a href="{{url('tarifa')}}"><i class="fa fa-road"></i> <span>Tarifa</span></a></li>
+        <li class="active"><a href="{{url('salida_vehiculo')}}"><i class="fa fa-usd"></i> <span>Salida De Vehiculos</span></a></li>
+        <li><a href="{{url('ingreso_vehiculo')}}"><i class="fa fa-send"></i> <span>Ingreso De Vehiculos</span></a></li>
+        <li><a href="{{url('tarifa')}}"><i class="fa fa-road"></i> <span>Asignar Tarifa</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-car"></i> <span>Vehiculo</span>
+          <a href="#"><i class="fa fa-car"></i> <span>Vehiculos</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('vehiculo')}}"><i class="fa fa-circle-o"></i> Crear Vehiculo</a></li>
-            <li><a href="{{url('tipo_vehiculo')}}"><i class="fa fa-circle-o"></i> Asiginar Tipo Vehiculo</a></li>
+            <li><a href="{{url('vehiculo')}}"><i class="fa fa-circle-o"></i> Crear Vehiculos</a></li>
+            <li><a href="{{url('tipo_vehiculo')}}"><i class="fa fa-circle-o"></i> Crear Tipo Vehiculos</a></li>
           </ul>
         </li>
         <li class="treeview">
               <a href="#">
                 <i class="fa fa-user"></i>
-                <span>Usuarios y Rol</span>
+                <span>Usuarios</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{url('usuario')}}"><i class="fa fa-circle-o"></i> Usuario</a></li>
-                <li><a href="{{url('usuario_role')}}"><i class="fa fa-circle-o"></i> Usuario + Rol</a></li>
-                <li><a href="{{url('role')}}"><i class="fa fa-circle-o"></i> Rol</a></li>
+                <li><a href="{{url('usuario')}}"><i class="fa fa-circle-o"></i> Administrar Usuarios</a></li>
+                <li><a href="{{url('usuario_role')}}"><i class="fa fa-circle-o"></i> Asignar Rol</a></li>
+                <li><a href="{{url('role')}}"><i class="fa fa-circle-o"></i> Administrar Roles</a></li>
               </ul>
             </li>
       </ul>
@@ -306,14 +322,14 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Page Header
+        Parqueadero VIDA
         <small>Optional description</small>
       </h1>
-      <ol class="breadcrumb">
+      <!--<ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
         <li class="active">Here</li>
       </ol>
-    </section>
+    </section>-->
 
     <!-- Main content -->
     <section class="content container-fluid">

@@ -12,16 +12,18 @@
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
 				<thead>
-					<th>Id Usuario</th>
+					<th>Identifiación</th>
 					<th>Nombre</th>
 					<th>Email</th>
+					<th>Estado</th>
 					<th>Opciones</th>
 				</thead>
                @foreach ($usuarios as $usu)
 				<tr>
-					<td>{{ $usu->id}}</td>
+					<td>{{ $usu->identification}}</td>
 					<td>{{ $usu->name}}</td>
 					<td>{{ $usu->email}}</td>
+					<td>{{ $usu->estado}}</td>
 					<td>
 						<a href="{{URL::action('UserController@edit',$usu->id)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
                          <a href="" data-target="#modal-delete-{{$usu->id}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Eliminar </button></a>

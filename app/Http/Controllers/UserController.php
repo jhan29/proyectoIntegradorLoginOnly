@@ -29,7 +29,7 @@ class UserController extends Controller
             $query=trim($request->get('searchText'));
             $usuarios=DB::table('users')
             ->where('name','LIKE','%'.$query.'%')
-            //->where('estado','=','Activo')
+            ->where('estado','=','Activo')
             ->orderBy('id','desc')
             ->paginate(10);
             return view('User.index',["usuarios"=>$usuarios,"searchText"=>$query]);
@@ -57,9 +57,11 @@ class UserController extends Controller
     public function store(UserFormRequest $request)
     {
       $usuario=new User;
-      $usuario->name=$request->get('name');
-      $usuario->email=$request->get('email');
-      $usuario->password=bcrypt($request->get('password'));
+      $usuario->name = $request->get('name');
+      $usuario->identification = $request->get('identification');
+      $usuario->email = $request->get('email');
+      $usuario->password = bcrypt($request->get('password'));
+      $usuario->estado = $request->get('estado');
       $usuario->save();
       return Redirect::to('usuario');
     }
@@ -98,9 +100,11 @@ class UserController extends Controller
     public function update(UserFormRequest $request, $id)
     {
         $usuario=User::findOrFail($id);
-        $usuario->name=$request->get('name');
-        $usuario->email=$request->get('email');
-        $usuario->password=bcrypt($request->get('password'));
+        $usuario->name = $request->get('name');
+        $usuario->identification = $request->get('identification');
+        $usuario->email = $request->get('email');
+        //$usuario->password = bcrypt($request->get('password'));
+        $usuario->estado = $request->get('estado');
         $usuario->update();
         return Redirect::to('usuario');
     }
@@ -116,7 +120,9 @@ class UserController extends Controller
         $request->user()->authorizeRoles('admin');
 
         $usuario=User::findOrFail($id);
-        $usuario->delete();
+        $usuario->estado="Inactivo";
+        $usuario->password = bcrypt("noexiste");
+        $usuario->update();
         return Redirect::to('usuario');
     }
 }

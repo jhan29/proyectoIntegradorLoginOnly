@@ -24,9 +24,11 @@ class UserFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:255',
-            'email'=>'required|email|max:255',/*|unique:users',*/
-            'password'=>'required|min:6|confirmed'
+            'name'=>'required|max:25',
+            'email'=>'required|email|max:50',/*|unique:users',*/
+            'password'=>'min:6|confirmed',
+            'identification' => 'Integer|required|digits_between:6,10',
+            'estado' => 'required|in:Activo,Inactivo|max:25',
         ];
     }
 }

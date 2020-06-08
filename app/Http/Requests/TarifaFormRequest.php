@@ -26,8 +26,7 @@ class TarifaFormRequest extends FormRequest
         return [
             'id_tarifa' => 'required',
             'tipo_vehiculos_id_tipo' => 'required',
-            'valor_hora' => 'required|Integer|min:1|digits_between:1,4',
-            'estado' => 'required'
+            'valor_hora' => 'required|Integer',//|digits_between:3,4',
         ];
     }
 
@@ -35,14 +34,12 @@ class TarifaFormRequest extends FormRequest
     {
         return [
             'valor_hora.required'   => 'El atributo valor tarifa * hora, es obligatorio.',
-            'valor_hora.min'   => 'El atributo valor tarifa * hora, debe contener numeros mayores a 0.',
-            'valor_hora.digits_between'   => 'El atributo valor tarifa * hora, debe contener entre 1 a 4 numeros enteros.',
+            
+            //'valor_hora.digits_between'   => 'El atributo valor_hora, debe contener entre 3 a 4 números.',
 
             'id_tarifa.required'   => 'El atributo id tarifa, es obligatorio.',
 
             'tipo_vehiculos_id_tipo.required'   => 'El atributo tipo vehiculo asignar, es obligatorio.',
-
-            'estado.required'   => 'El atributo estado, es obligatorio.',
 
         ];
     }

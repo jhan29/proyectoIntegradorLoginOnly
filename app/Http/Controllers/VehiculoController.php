@@ -24,7 +24,7 @@ class VehiculoController extends Controller
      */
     public function index(Request $request)
     {
-    $request->user()->authorizeRoles(['admin','emple']);
+    $request->user()->authorizeRoles(['admin','operario']);
         if ($request)
         {
             $query=trim($request->get('searchText'));
@@ -46,9 +46,10 @@ class VehiculoController extends Controller
      */
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles(['admin','emple']);
+        $request->user()->authorizeRoles(['admin','operario']);
 
         $tipo_vehiculo=DB::table('tipo_vehiculos')
+        ->whereIn('tipo_vehiculos.nombre', ['Automovil','Motocicleta'])
         ->get();
 
         $idvehiculo = DB::table('vehiculos')->max('id_vehiculo');
@@ -70,16 +71,17 @@ class VehiculoController extends Controller
     public function store(VehiculoFormRequest $request)
     {    
         $ciclo=$request->placa; //Guardo el valor del nombre, por medio del formulario
+        $mayuscula = strtoupper($ciclo);
 
         $existencia = DB::table('vehiculos')   
         ->select('placa')
         ->where('placa', '=', $ciclo)
-        ->get(); //realizo la sentencia para saber si existe
+        ->get(); //realizo la sentencia para saber si 
     
        if (count($existencia) >= 1) {   //aqui valido si son iguales en el campo de la db y 
 
             echo    "<script>
-                        alert('No puedes registrar dos veces la misma placa');
+                        alert('Placa Del Vehiculo Existente');
                         window.location.href = 'vehiculo/create';
                     </script>";
             exit;
@@ -88,12 +90,12 @@ class VehiculoController extends Controller
             $vehiculo=new Vehiculo;
             $vehiculo->id_vehiculo=$request->get('id_vehiculo');
             $vehiculo->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo'); 
-            $vehiculo->placa=$request->get('placa');
+            $vehiculo->placa=$mayuscula;
             $vehiculo->save();
             //return Redirect::to('vehiculo');
             echo    "<script>
                         alert('Vehiculo Registrado');
-                        window.location.href = 'vehiculo';
+                        window.location.href = 'ingreso_vehiculo/create';
                     </script>";
             exit;
         }
@@ -119,11 +121,12 @@ class VehiculoController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles('admin');
+        $request->user()->authorizeRoles(['admin','operario']);
 
         $vehiculo=Vehiculo::findOrFail($id);
 
         $tipovehiculo=DB::table('tipo_vehiculos')
+        ->whereIn('tipo_vehiculos.nombre', ['Automovil','Motocicleta'])
         ->get();    
 
         return view("Vehiculo.edit",["vehiculo"=>$vehiculo,"tipovehiculo"=>$tipovehiculo]);
@@ -139,17 +142,37 @@ class VehiculoController extends Controller
      */
     public function update(VehiculoFormRequest $request, $id)
     {
-        $vehiculo=Vehiculo::findOrFail($id);
-        $vehiculo->id_vehiculo=$request->get('id_vehiculo');
-        $vehiculo->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo'); 
-        $vehiculo->placa=$request->get('placa'); 
-        $vehiculo->update();
-       //return Redirect::to('vehiculo');
-        echo    "<script>
-                    alert('Vehiculo Actualizado');
-                    window.location.href = '/vehiculo';
-                </script>";
-        exit;
+        $ciclo=$request->placa; //Guardo el valor del nombre, por medio del formulario
+        $ciclo1=$request->id_vehiculo;
+        $mayuscula = strtoupper($ciclo);//convertir la cadena a MAYUSCULA
+
+        $existencia = DB::table('vehiculos')   
+        ->select('placa')
+        ->where('placa', '=', $ciclo)
+        ->get(); //realizo la sentencia para saber si existe la placa con dicho identificador  
+        
+        if (count($existencia) >= 1) {   //aqui valido si son iguales en el campo de la db y 
+
+            echo    "<script>
+                        alert('La Placa Del Vehiculo A Actualizar Ya Existe');
+                        window.location.href = '/vehiculo/$ciclo1/edit';
+                    </script>";
+            exit;
+    
+        }else{
+            $vehiculo=Vehiculo::findOrFail($id);
+            $vehiculo->id_vehiculo=$request->get('id_vehiculo');
+            $vehiculo->tipo_vehiculos_id_tipo=$request->get('tipo_vehiculos_id_tipo'); 
+            $vehiculo->placa=$mayuscula;
+            $vehiculo->update();
+        //return Redirect::to('vehiculo');
+            echo    "<script>
+                        alert('Vehiculo Actualizado');
+                        window.location.href = '/vehiculo';
+                    </script>";
+            exit;
+        }
+        
     }
 
     /**
@@ -163,6 +186,22 @@ class VehiculoController extends Controller
         $request->user()->authorizeRoles('admin');
 
         $vehiculo=Vehiculo::findOrFail($id);
+
+        $existencia=DB::table('vehiculos as v')
+        ->where('v.id_vehiculo','=',$id)
+        ->whereIn('v.id_vehiculo', function($query){
+        $query -> select('ingreso_vehiculos.vehiculos_id_vehiculo')
+        ->from('ingreso_vehiculos');
+        })
+        ->get();
+        
+        if (count($existencia)>=1) {
+            echo    "<script>
+                        alert('No Se Puede Elimar, El Vehiculo Esta Registrado En El Ingreso Al Parqueadero');
+                        window.location.href = '/vehiculo';
+                    </script>";
+            exit;
+        }else{
         $vehiculo->delete();
         //return Redirect::to('vehiculo');
         echo    "<script>
@@ -170,5 +209,6 @@ class VehiculoController extends Controller
                     window.location.href = '/vehiculo';
                 </script>";
         exit;
+        }
     }
 }

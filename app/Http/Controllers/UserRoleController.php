@@ -60,10 +60,7 @@ class UserRoleController extends Controller
 
        $users=DB::table('users')
        ->select('users.name','users.email','users.id')
-        ->whereNotIn('users.id', function($query){
-            $query -> select('role_user.id')
-            ->from('role_user');
-        })
+       ->where('users.estado','=','Activo')
         ->get();
       
         return view('User_Role.create',["rol"=>$rol,"users"=>$users]);
