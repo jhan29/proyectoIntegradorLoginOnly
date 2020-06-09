@@ -179,4 +179,17 @@ class PdfController extends Controller
         return $pdf->download('Salida Vehiculo Especifico.pdf');
       
     }
+    public function imprimirVehiculosRetirados(Request $request)
+    {
+
+        $salida = DB::table('salida_vehiculos as s')
+            ->join('ingreso_vehiculos as i', 'i.id_ingreso', '=', 's.ingreso_vehiculos_id_ingreso')
+            ->join('vehiculos as v', 'v.id_vehiculo', '=', 'i.vehiculos_id_vehiculo')
+            ->join('tipo_vehiculos as tv', 'tv.id_tipo', '=', 'v.tipo_vehiculos_id_tipo')
+            ->orderBy('Id_Ingreso', 'desc')
+            ->select('i.Id_Ingreso', 'v.Placa', 'i.Fecha_Ingreso', 's.Fecha_salida', 'tv.Nombre', 's.Total')->get();
+        $pdf = \PDF::loadView('Pdf.vehiculos_retiradosPDF', ['salida' => $salida]);
+        $pdf->setPaper('carta', 'A4');
+        return $pdf->download('Listado de Vehiculos Retirados.pdf');
+    }
 }

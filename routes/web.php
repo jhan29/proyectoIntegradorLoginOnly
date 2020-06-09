@@ -32,11 +32,14 @@ Route::get('imprimirVehiculos','PdfController@imprimirVehiculos')->name('PdfCont
 Route::get('imprimirVehiculoEspecifico/{id_vehiculo}','PdfController@imprimirVehiculoEspecifico')->name('PdfController.imprimirVehiculoEspecifico');
 Route::get('imprimirIngreso_vehiculos','PdfController@imprimirIngreso_vehiculos')->name('PdfController.imprimirIngreso_vehiculos');
 Route::get('imprimirIngresoEspecifico/{id_ingreso}','PdfController@imprimirIngresoEspecifico')->name('PdfController.imprimirIngresoEspecifico');
-Route::get('imprimirSalidaEspecifico/{id_ticket}','PdfController@imprimirSalidaEspecifico')->name('PdfController.imprimirSalidaEspecifico');
+//Route::get('imprimirSalidaEspecifico/{id_ticket}','PdfController@imprimirSalidaEspecifico')->name('PdfController.imprimirSalidaEspecifico');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('Salida_vehiculos/{placa}/{id_ingreso}/{valor}','Salida_VehiculoController@generarSalida')->name('Salida_vehiculos');
+Route::get('imprimirSalida/{id_ingreso}','PdfController@imprimirSalida')->name('imprimirSalida');
+Route::get('imprimirVehiculosRetirados','PdfController@imprimirVehiculosRetirados')->name('imprimirVehiculosRetirados');
 //Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 

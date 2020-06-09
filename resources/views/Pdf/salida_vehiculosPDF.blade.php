@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Salida Vehiculo Especifico | Paqueadero Vida Online</title>
 </head>
 
@@ -28,7 +28,7 @@
         <table class="table table-bordered table-striped table-hover">
 
             <tr>
-                <th># ingreso:</th>
+            <th># ingreso:</th>
                 <th>Placa :</th>
                 <th>Fecha Entrada:</th>
                 <th>Fecha Salida:</th>
@@ -41,7 +41,7 @@
                 <td>{{$fechaingreso}}</td>
                 <td>{{$fechasalida}}</td>
                 <td>{{$tiponombre}}</td>
-                <td>{{$valortotal}}</td>
+                <td>${{number_format($valortotal)}}</td>
             </tr>
         </table>
 

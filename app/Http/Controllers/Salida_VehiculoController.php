@@ -24,7 +24,7 @@ class Salida_VehiculoController extends Controller
         $request->user()->authorizeRoles(['operario','admin']);
         if ($request)
         {
-            $query=trim($request->get('searchText'));
+           /* $query=trim($request->get('searchText'));
             $salidas=DB::table('salida_vehiculos as save')
             ->join('ingreso_vehiculos as inve','inve.id_ingreso','=','save.ingreso_vehiculos_id_ingreso')
             ->join('vehiculos as ve','ve.id_vehiculo','=','inve.vehiculos_id_vehiculo')
@@ -36,7 +36,18 @@ class Salida_VehiculoController extends Controller
             ->where('inve.estado','=','Inactivo')
             ->paginate(10);
 
-            return view('Salida_Vehiculo.index',["salidas"=>$salidas,"searchText"=>$query]);
+            return view('Salida_Vehiculo.index',["salidas"=>$salidas,"searchText"=>$query]);*/
+            $query=trim($request->get('searchText'));
+            $salida=DB::table('vehiculos as v')
+            ->join('ingreso_vehiculos as i','i.vehiculos_id_vehiculo', '=','v.id_vehiculo')
+            ->join('tipo_vehiculos as tv','tv.id_tipo', '=','v.tipo_vehiculos_id_tipo')
+            ->join('tarifa_vehiculos as t','tv.id_tipo', '=','t.tipo_vehiculos_id_tipo')
+            ->SELECT('i.id_ingreso','v.placa', 'tv.nombre', 'i.fecha_ingreso', 't.valor_hora')
+            ->where('v.placa','LIKE','%'.$query.'%')->orderBy('id_ingreso', 'desc')
+            ->where('t.estado','Activo')
+            ->where('i.estado','Activo')->paginate(10);
+            //dd($Salida);
+         return view('Salida_Vehiculo.index',["Salida_vehiculos"=>$salida,"searchText"=>$query]);//
         } 
     }
 
@@ -45,7 +56,7 @@ class Salida_VehiculoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    /*public function create(Request $request)
     {
         $request->user()->authorizeRoles(['operario','admin']);
 
@@ -66,7 +77,7 @@ class Salida_VehiculoController extends Controller
         ->get();
 
         return view ('Salida_Vehiculo.create',["idsalida"=>$idsalida, "idingreso"=>$idingreso]);
-    }
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -76,7 +87,7 @@ class Salida_VehiculoController extends Controller
      */
     public function store(Salida_VehiculoFormRequest $request)
     {
-        $idingreso2 = $request->ingreso_vehiculos_id_ingreso;
+        /*$idingreso2 = $request->ingreso_vehiculos_id_ingreso;
 
         $ingreso =Ingreso_vehiculo::findOrFail($idingreso2);
 
@@ -161,7 +172,123 @@ class Salida_VehiculoController extends Controller
                         window.location.href = 'salida_vehiculo';
                     </script>";
             exit;
+        }*/
+    }
+    public function generarSalida($salida,$id_ingreso,$valor)
+    {
+        
+
+        $mytime=Carbon::now('America/Bogota');
+        $tarifa=Ingreso_Vehiculo::findOrFail($id_ingreso);
+        $horas=$tarifa->fecha_ingreso->diffInHours();
+        $minutos=$tarifa->fecha_ingreso->diffInMinutes();
+        //$total= $horas*$valor;
+
+        $idticket = DB::table('salida_vehiculos')->max('id_ticket');
+        if ($idticket==0) {
+          $idticket=1;
+        }else {
+          $idticket = $idticket+1;
         }
+
+        $valor=DB::table('ingreso_vehiculos as iv')
+            ->join('vehiculos as v','v.id_vehiculo', '=','iv.vehiculos_id_vehiculo')
+            ->join('tipo_vehiculos as tv','tv.id_tipo','=','v.tipo_vehiculos_id_tipo')
+            ->join('tarifa_vehiculos as t','t.tipo_vehiculos_id_tipo','=','tv.id_tipo')
+            ->select('t.valor_hora')
+            ->where('iv.id_ingreso','=',$id_ingreso)
+            ->get();
+             //TRANFORMADO TODA ESA CONSULTA ARRAY, CONVERTIR EL ATRIBUTO VALOR_HORA EN VARIABLE
+            foreach ($valor as $v) {
+                $valor2=$v->valor_hora;
+              }
+
+        if ($minutos > 14 && $minutos <= 59) {
+            $total=$valor2;
+
+        $salida=new Salida_Vehiculo;
+        $salida->id_ticket=$idticket;
+        $mytime=Carbon::now('America/Bogota');
+        $salida->fecha_salida = $mytime->toDateTimeString();
+        $salida->total = $total;
+        $salida->ingreso_vehiculos_id_ingreso=$id_ingreso;
+        $salida->save();
+
+        $tarifa->estado='Inactivo'; //Inactivo
+        $tarifa->update();
+
+        } elseif ($horas >= 1){
+            $total=(1+$horas)*$valor2;
+           
+        $salida=new Salida_Vehiculo;
+        $salida->id_ticket=$idticket;
+        $mytime=Carbon::now('America/Bogota');
+        $salida->fecha_salida = $mytime->toDateTimeString();
+        $salida->total = $total;
+        $salida->ingreso_vehiculos_id_ingreso=$id_ingreso;
+        $salida->save();
+
+        $tarifa->estado='Inactivo'; //Inactivo
+        $tarifa->update();
+        } else{
+            $total=$valor2*0;
+            
+            $salida=new Salida_Vehiculo;
+        $salida->id_ticket=$idticket;
+        $mytime=Carbon::now('America/Bogota');
+        $salida->fecha_salida = $mytime->toDateTimeString();
+        $salida->total = $total;
+        $salida->ingreso_vehiculos_id_ingreso=$id_ingreso;
+        $salida->save();
+
+        $tarifa->estado='Inactivo'; //Inactivo
+        $tarifa->update();
+        }
+        
+
+        /*$salida= new Salida_Vehiculo;
+        $salida->id_ticket=$idticket;
+        $salida->fecha_salida=$mytime->toDateTimeString();
+        $salida->Total=$total;
+        $salida->ingreso_vehiculos_id_ingreso=$id_ingreso;
+        $salida->save();
+        
+        $tarifa->estado='Inactivo';
+        $tarifa->update();*/
+
+        $salidaespecifico = DB::table('salida_vehiculos as s')
+        ->join('ingreso_vehiculos as i', 'i.id_ingreso', '=', 's.ingreso_vehiculos_id_ingreso')
+        ->join('vehiculos as v', 'v.id_vehiculo', '=', 'i.vehiculos_id_vehiculo')
+        ->join('tipo_vehiculos as tv', 'tv.id_tipo', '=', 'v.tipo_vehiculos_id_tipo')
+        ->select('i.id_ingreso','v.placa','i.fecha_ingreso','s.fecha_salida','tv.nombre','s.total')
+        ->where('i.id_ingreso', '=', $id_ingreso)->get();
+       
+        
+        foreach ($salidaespecifico as $sa) {
+            $placavehiculo = $sa->placa;
+            $fechaingreso = $sa->fecha_ingreso;
+            $fechasalida = $sa->fecha_salida;
+            $idingreso = $sa->id_ingreso;
+            $tiponombre = $sa->nombre;
+            $valortotal = $sa->total;
+        }
+       
+
+        $pdf = \PDF::loadView('Pdf.salida_vehiculosPDF', [
+            'placavehiculo' => $placavehiculo,
+            'fechaingreso' => $fechaingreso,
+            'fechasalida' => $fechasalida,
+            'idingreso' => $idingreso,
+            'tiponombre' => $tiponombre,
+            'valortotal' => $valortotal,
+            
+        ]);
+
+        
+        $pdf->setPaper('carta', 'A4');
+        return $pdf->download('Salida Especifico.pdf');
+        
+        return Redirect::to('Salida_vehiculo');
     }
 
     /**
