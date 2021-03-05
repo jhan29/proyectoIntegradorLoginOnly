@@ -103,7 +103,7 @@ class UserController extends Controller
         $usuario->name = $request->get('name');
         $usuario->identification = $request->get('identification');
         $usuario->email = $request->get('email');
-        //$usuario->password = bcrypt($request->get('password'));
+        $usuario->password = bcrypt($request->get('password'));
         $usuario->estado = $request->get('estado');
         $usuario->update();
         return Redirect::to('usuario');

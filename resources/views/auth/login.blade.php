@@ -42,8 +42,11 @@
                         Ingresar
                     </button>
 
-
-
+                    <div class="col-md-6">
+                    
+                    <a href="{{url('password/reset')}}">olvide mi Contraseña</a>
+                    
+                    </div>
                 </div>
             </form>
         </div>

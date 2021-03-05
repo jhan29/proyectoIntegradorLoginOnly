@@ -28,7 +28,7 @@
                         <td>{{$vehiculo->nombre}}</td>
                         <td>{{$vehiculo->placa}}</td>                  
                     <td>
-                        <a href="{{URL::action('VehiculoController@edit',$vehiculo->id_vehiculo)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
+                        <a href="{{URL::action('VehiculoController@edit',$vehiculo->id_vehiculo)}}"><button class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
                         <a href="" data-target="#modal-delete-{{$vehiculo->id_vehiculo}}" data-toggle="modal"><button class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span> Eliminar </button></a>
                         <a href="/imprimirVehiculoEspecifico/{{$vehiculo->id_vehiculo}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Generar PDF</button></a>
                     </td>

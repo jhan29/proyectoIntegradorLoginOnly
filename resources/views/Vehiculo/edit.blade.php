@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-refresh"></span> Actualizar </button>
+            <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-refresh"></span> Actualizar </button>
             <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-repeat"></span> Vaciar Campos</button>
             <a class="btn btn-info" type="reset" href="{{url('vehiculo')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
         </div>

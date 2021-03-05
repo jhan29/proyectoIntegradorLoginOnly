@@ -24,6 +24,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css')}}">
   <link rel="shortcut icon" href="{{asset('fondos/FondoPanel.png')}}">
   <link rel="stylesheet" href="{{asset('dist/css/skins/skin-blue.min.css')}}">
+  <link rel="stylesheet" href="{{asset('dist/css/skins/skin-black.min.css')}}">
+  <link rel="stylesheet" href="{{asset('dist/css/skins/skin-purple.min.css')}}">
+  <link rel="stylesheet" href="{{asset('dist/css/skins/skin-red.min.css')}}">
+  <link rel="stylesheet" href="{{asset('dist/css/skins/skin-green.min.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,18 +68,18 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-green sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{url('usuario')}} " class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>P</b>VW</span>
+      <span class="logo-mini"><b>P</b>V</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Parqueadero </b>PV</span>
+      <span class="logo-lg"><b>Parqueadero </b>Vida</span>
     </a>
 
     <!-- Header Navbar -->
@@ -89,13 +93,13 @@ desired effect
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <!--<li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
+            <-- Menu toggle button -->
             <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
             </a>-->
             <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
+             
               <li>
                 <!-- inner menu: contains the messages -->
                 <ul class="menu">
@@ -206,21 +210,12 @@ desired effect
                     {{ Auth::user()->name }}
                     @endif
                     @endif
-                    <small>Member since Nov. 2012</small>
+                 
                   </p>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
                 </div>
                 <!-- /.row -->
               </li>
@@ -245,7 +240,9 @@ desired effect
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+<span class="sr-only">Loading...</span>
+</a>
           </li>
         </ul>
       </div>
@@ -269,16 +266,8 @@ desired effect
         </div>
       </div>
 
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
-        </div>
-      </form>
+<!-- search form (Optional) -->
+    
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
@@ -286,8 +275,8 @@ desired effect
         <li class="header">Menu</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="{{url('salida_vehiculo')}}"><i class="fa fa-usd"></i> <span>Salida De Vehiculos</span></a></li>
-        <li><a href="{{url('ingreso_vehiculo')}}"><i class="fa fa-send"></i> <span>Ingreso De Vehiculos</span></a></li>
-        <li><a href="{{url('tarifa')}}"><i class="fa fa-road"></i> <span>Asignar Tarifa</span></a></li>
+        <li><a href="{{url('ingreso_vehiculo')}}"><i class="fa fa-book"></i> <span>Ingreso De Vehiculos</span></a></li>
+        <li><a href="{{url('tarifa')}}"><i class="fa  fa-money"></i> <span>Asignar Tarifa</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-car"></i> <span>Vehiculos</span>
             <span class="pull-right-container">
@@ -310,7 +299,8 @@ desired effect
                 <li><a href="{{url('usuario_role')}}"><i class="fa fa-circle-o"></i> Asignar Rol</a></li>
                 <li><a href="{{url('role')}}"><i class="fa fa-circle-o"></i> Administrar Roles</a></li>
               </ul>
-            </li>
+              
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -369,32 +359,23 @@ desired effect
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+              <i class="menu-icon fa fa-trash bg-red"></i>
 
               <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
+               
               </div>
             </a>
           </li>
         </ul>
         <!-- /.control-sidebar-menu -->
 
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+       
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript:;">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="pull-right-container">
-                    <span class="label label-danger pull-right">70%</span>
-                  </span>
-              </h4>
+              
 
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
+              
             </a>
           </li>
         </ul>

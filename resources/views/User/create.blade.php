@@ -73,8 +73,8 @@
         </div>
 
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Guardar</button>
-                <button class="btn btn-danger" type="reset">
+                <button class="btn btn-success" type="submit">Guardar</button>
+                <button class="btn btn-info" type="reset">
                 <span class="glyphicon glyphicon-remove"></span> Borras Campos </button>
                 <a class="btn btn-info" type="reset" href="{{url('usuario')}}"><span class="glyphicon glyphicon-home"></span> Volver </a>
             </div>

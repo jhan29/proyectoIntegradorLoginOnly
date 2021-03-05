@@ -26,7 +26,7 @@
 					<td>{{ $usu->email}}</td>
 					<td>{{ $usu->estado}}</td>
 					<td>
-						<a href="{{URL::action('UserController@edit',$usu->id)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
+						<a href="{{URL::action('UserController@edit',$usu->id)}}"><button class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
                          <a href="" data-target="#modal-delete-{{$usu->id}}" data-toggle="modal"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Inactivar </button></a>
 					</td>
 				</tr>

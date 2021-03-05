@@ -22,7 +22,7 @@
 					<td>{{$rol->name}}</td>
 					<td>{{$rol->description}}</td>
 					<td>
-						<a href="{{URL::action('RoleController@edit',$rol->id)}}"><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
+						<a href="{{URL::action('RoleController@edit',$rol->id)}}"><button class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> Editar </button></a>
 					  	<a href="" data-target="#modal-delete-{{$rol->id}}" data-toggle="modal"><button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></a>
 				   </td>
 				</tr>

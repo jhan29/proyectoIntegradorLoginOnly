@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit" >Actualizar</button>
+                        <button class="btn btn-success" type="submit" >Actualizar</button>
                         <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Borras Campos </button>
                         <a class="btn btn-info" type="reset" href="{{url('role')}}"><span class="glyphicon glyphicon-home"></span> Regresar </a>
                         </div>  
